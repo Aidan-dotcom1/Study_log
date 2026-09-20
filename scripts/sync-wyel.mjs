@@ -5,7 +5,7 @@
 //   Repo → Settings → Secrets and variables → Actions → Variables → New repository variable
 // It is a *variable*, not a secret, because the URL is already public.
 
-import { writeFile, readFile } from "node:fs/promises";
+import { writeFile, readFile, mkdir } from "node:fs/promises";
 
 const CSV_URL = process.env.WYEL_CSV_URL;
 const OUT = "data/wyel.json";
@@ -193,6 +193,8 @@ if (previous) {
   }
 }
 
+// writeFile creates the file but not its folder, and data/ may not exist yet.
+await mkdir("data", { recursive: true });
 await writeFile(OUT, JSON.stringify(payload, null, 2) + "\n");
 console.log(
   `Synced ${used} sessions across ${days.length} days ` +
