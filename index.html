@@ -383,7 +383,7 @@
   // and "All" resolves to whatever allTimeShape picked.
   function resolvedUnit() {
     var p = currentPeriod();
-    if (p.id === "D") return state.person === "aidan" ? "hour" : "day";
+    if (p.id === "D") return "hour";
     if (p.id === "ALL") return allTimeShape().unit;
     return p.unit;
   }
@@ -632,17 +632,42 @@
     return out;
   }
 
+  function wyelHourly(hour) {
+    var today = toISO(new Date());
+    var h = state.wyel && state.wyel.hourly && state.wyel.hourly[today];
+    return (h && h[hour]) || 0;
+  }
+
   // Sessions today with no recorded start time can't be placed on an hourly axis.
-  function untimedTodayMinutes() {
+  function untimedTodayMinutes(pid) {
     var today = toISO(new Date()), total = 0;
-    state.sessions.forEach(function (s) {
-      if (s.day === today && !s.started_at) total += s.minutes;
-    });
-    return total;
+    if (pid === "aidan") {
+      state.sessions.forEach(function (s) {
+        if (s.day === today && !s.started_at) total += s.minutes;
+      });
+      return total;
+    }
+    // Wyel: whatever his daily total holds that the hourly breakdown doesn't.
+    var day = (state.wyel && state.wyel.daily && state.wyel.daily[today]) || 0;
+    var hrs = (state.wyel && state.wyel.hourly && state.wyel.hourly[today]) || [];
+    var placed = hrs.reduce(function (a, b) { return a + b; }, 0);
+    return Math.max(0, day - placed);
   }
 
   function groupsForBucket(b) {
     if (b.hour !== undefined) {
+      if (state.person === "both") {
+        var aidanBy = hourlyBySubject(b.hour);
+        var aidanTotal = Object.keys(aidanBy).reduce(function (t, k) { return t + aidanBy[k]; }, 0);
+        return PEOPLE.map(function (p) {
+          var m = p.id === "aidan" ? aidanTotal : wyelHourly(b.hour);
+          return { total: m, segments: m ? [{ color: personColor(p.id), value: m, name: p.name }] : [] };
+        });
+      }
+      if (state.person === "wyel") {
+        var wm = wyelHourly(b.hour);
+        return [{ total: wm, segments: wm ? [{ color: personColor("wyel"), value: wm, name: "Wyel" }] : [] }];
+      }
       var by = hourlyBySubject(b.hour);
       var order = subjectList();
       var segs = Object.keys(by).sort(function (x, y) {
@@ -1126,8 +1151,13 @@
     $("th-name").textContent = both ? "Person" : "Subject";
     var rangeText = frame.label;
     if (unit === "hour") {
-      var untimed = untimedTodayMinutes();
-      if (untimed) rangeText += " · " + fmtHM(untimed) + " without a start time, not shown";
+      var pids = both ? ["aidan", "wyel"] : [state.person];
+      var notes = [];
+      pids.forEach(function (pid) {
+        var u = untimedTodayMinutes(pid);
+        if (u) notes.push((both ? personName(pid) + " " : "") + fmtHM(u));
+      });
+      if (notes.length) rangeText += " · " + notes.join(", ") + " without a start time, not shown";
     }
     $("range-label").textContent = rangeText;
 
