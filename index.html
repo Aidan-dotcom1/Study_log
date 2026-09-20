@@ -156,7 +156,26 @@
   .nav button { font: inherit; font-size: 15px; line-height: 1; padding: 5px 9px; background: transparent; border: 1px solid var(--hairline); color: var(--ink-2); cursor: pointer; }
   .nav button:hover:not(:disabled) { color: var(--ink); border-color: var(--rule); }
   .nav button:disabled { opacity: .3; cursor: not-allowed; }
-  .range-label { font-size: 12.5px; color: var(--ink-2); font-variant-numeric: tabular-nums; min-width: 132px; text-align: center; }
+  .range-label { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; margin-right: auto; }
+
+  /* summary strip under the chart */
+  .statstrip {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+    margin-top: 18px; border-top: 1px solid var(--rule); background: var(--hairline);
+  }
+  @media (max-width: 560px) { .statstrip { grid-template-columns: repeat(2, 1fr); } }
+  .statstrip .cell { background: var(--surface); padding: 12px 2px 2px; }
+  .statstrip .k {
+    display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .1em;
+    color: var(--muted); font-weight: 600; margin-bottom: 3px;
+  }
+  .statstrip .v {
+    display: block; font-family: var(--mono); font-size: 18px; font-weight: 500;
+    font-variant-numeric: tabular-nums; letter-spacing: -.02em;
+  }
+  .statstrip .sub { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+  .statstrip .pair { display: flex; align-items: baseline; gap: 6px; }
+  .statstrip .pair .dot2 { width: 7px; height: 7px; border-radius: 50%; flex: none; }
 
   .chart-wrap { position: relative; width: 100%; }
   svg.chart { display: block; width: 100%; height: auto; overflow: visible; }
@@ -202,7 +221,6 @@
   <header class="top">
     <div class="toprow">
       <h1 class="wordmark">Study Log <span>· Aidan &amp; Wyel</span></h1>
-      <div class="topstat"><span class="k">Today</span><span class="v" id="stat-today">–</span></div>
       <div class="topstat"><span class="k">This week</span><span class="v" id="stat-week">–</span></div>
       <div class="topstat"><span class="k">Days studied</span><span class="v" id="stat-days">–</span></div>
     </div>
@@ -272,18 +290,8 @@
       <section class="card">
         <div class="card-head">
           <h2 id="chart-h">Time by subject</h2>
-          <div class="seg" role="group" aria-label="Chart range">
-            <button id="view-week" aria-pressed="true">Week</button>
-            <button id="view-weeks" aria-pressed="false">12 weeks</button>
-          </div>
-        </div>
-        <div class="card-head" style="margin-bottom:8px">
-          <div class="nav">
-            <button id="prev" aria-label="Previous period">‹</button>
-            <span class="range-label" id="range-label">–</span>
-            <button id="next" aria-label="Next period">›</button>
-          </div>
-          <span class="s-min" id="range-total"></span>
+          <span class="range-label" id="range-label">–</span>
+          <div class="seg" id="periods" role="group" aria-label="Time period"></div>
         </div>
         <div class="chart-wrap" id="chart-wrap">
           <svg class="chart" id="chart" role="img" aria-labelledby="chart-desc"></svg>
@@ -291,6 +299,7 @@
           <div class="tip" id="tip"></div>
         </div>
         <div class="legend" id="legend"></div>
+        <div class="statstrip" id="statstrip"></div>
       </section>
 
       <section class="card" id="totals-card">
@@ -325,11 +334,24 @@
     selected: null,
     adhocSubject: "",
     person: "aidan",
-    view: "week",
-    offset: 0,
+    period: "W",
     loaded: false,
     error: ""
   };
+
+  // Markets-app style spans. `unit` is the bucket size the chart draws.
+  var PERIODS = [
+    { id: "D",  label: "D",  unit: "day",   count: 1,  title: "Today" },
+    { id: "W",  label: "W",  unit: "day",   count: 7,  title: "Last 7 days" },
+    { id: "M",  label: "M",  unit: "day",   count: 30, title: "Last 30 days" },
+    { id: "3M", label: "3M", unit: "week",  count: 13, title: "Last 13 weeks" },
+    { id: "6M", label: "6M", unit: "week",  count: 26, title: "Last 26 weeks" },
+    { id: "Y",  label: "Y",  unit: "month", count: 12, title: "Last 12 months" }
+  ];
+  function currentPeriod() {
+    for (var i = 0; i < PERIODS.length; i++) if (PERIODS[i].id === state.period) return PERIODS[i];
+    return PERIODS[1];
+  }
 
   function $(id) { return document.getElementById(id); }
   function pad(n) { return n < 10 ? "0" + n : String(n); }
@@ -445,25 +467,83 @@
   function savePerson(p) { try { localStorage.setItem(PERSON_KEY, p); } catch (e) {} }
 
   /* ---------- buckets ---------- */
+  var DAY_INITIALS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+  var MONTH_INITIALS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+
+  // Rolling windows that end today, like the Markets app — no paging back.
   function buildBuckets() {
-    var buckets = [], label = "", now = new Date();
-    if (state.view === "week") {
-      var ws = addDays(startOfWeek(now), -7 * state.offset);
-      for (var i = 0; i < 7; i++) {
-        var d = addDays(ws, i), iso = toISO(d);
-        buckets.push({ label: ["Mo","Tu","We","Th","Fr","Sa","Su"][i], sub: String(d.getDate()), startISO: iso, endISO: iso });
+    var p = currentPeriod();
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var buckets = [];
+
+    if (p.unit === "day") {
+      var start = addDays(today, -(p.count - 1));
+      for (var i = 0; i < p.count; i++) {
+        var d = addDays(start, i);
+        var lbl;
+        if (p.count === 1) lbl = shortDate(d);
+        else if (p.count <= 7) lbl = DAY_INITIALS[(d.getDay() + 6) % 7];
+        else lbl = (i === p.count - 1 || i % 5 === 0) ? String(d.getDate()) : "";
+        buckets.push({
+          label: lbl,
+          sub: p.count <= 7 && p.count > 1 ? String(d.getDate()) : "",
+          startISO: toISO(d), endISO: toISO(d),
+          tipLabel: d.getDate() + "." + (d.getMonth() + 1) + "."
+        });
       }
-      label = shortDate(ws) + " – " + shortDate(addDays(ws, 6)) + " " + ws.getFullYear();
+    } else if (p.unit === "week") {
+      var thisMonday = startOfWeek(today);
+      for (var w = 0; w < p.count; w++) {
+        var s = addDays(thisMonday, -7 * (p.count - 1 - w));
+        var e = addDays(s, 6);
+        buckets.push({
+          label: (w === p.count - 1 || w % 4 === 0) ? s.getDate() + "." + (s.getMonth() + 1) : "",
+          sub: "",
+          startISO: toISO(s), endISO: toISO(e),
+          tipLabel: "week of " + s.getDate() + "." + (s.getMonth() + 1) + "."
+        });
+      }
     } else {
-      var base = addDays(startOfWeek(now), -7 * 11 - 7 * state.offset * 12);
-      for (var w = 0; w < 12; w++) {
-        var s = addDays(base, w * 7), e = addDays(s, 6);
-        buckets.push({ label: s.getDate() + "." + (s.getMonth() + 1), sub: "", startISO: toISO(s), endISO: toISO(e) });
+      for (var m = 0; m < p.count; m++) {
+        var first = new Date(today.getFullYear(), today.getMonth() - (p.count - 1 - m), 1);
+        var last = new Date(first.getFullYear(), first.getMonth() + 1, 0);
+        buckets.push({
+          label: MONTH_INITIALS[first.getMonth()],
+          sub: first.getMonth() === 0 ? String(first.getFullYear()).slice(2) : "",
+          startISO: toISO(first), endISO: toISO(last),
+          tipLabel: first.toLocaleDateString([], { month: "long", year: "numeric" })
+        });
       }
-      var last = addDays(base, 11 * 7 + 6);
-      label = shortDate(base) + " – " + shortDate(last) + " " + last.getFullYear();
     }
-    return { label: label, buckets: buckets };
+
+    var a = buckets[0].startISO, b = buckets[buckets.length - 1].endISO;
+    var label = p.count === 1 ? p.title : p.title;
+    return { label: label, buckets: buckets, startISO: a, endISO: b };
+  }
+
+  function renderPeriods() {
+    var host = $("periods");
+    if (host.childElementCount === PERIODS.length) {
+      [].forEach.call(host.children, function (b, i) {
+        b.setAttribute("aria-pressed", String(PERIODS[i].id === state.period));
+      });
+      return;
+    }
+    host.textContent = "";
+    PERIODS.forEach(function (p) {
+      var b = document.createElement("button");
+      b.type = "button";
+      b.textContent = p.label;
+      b.title = p.title;
+      b.setAttribute("aria-pressed", String(p.id === state.period));
+      b.addEventListener("click", function () {
+        state.period = p.id;
+        try { localStorage.setItem("study-log:period", p.id); } catch (e) {}
+        renderAll();
+      });
+      host.appendChild(b);
+    });
   }
 
   function axisScale(maxMins) {
@@ -543,9 +623,11 @@
       var cx = padL + slot * bi + slot / 2;
       var left = cx - (barW * nGroups + gap * (nGroups - 1)) / 2;
 
-      var xl = el("text", { x: cx, y: padT + plotH + 18, "text-anchor": "middle", fill: "var(--muted)", "font-size": 11 });
-      xl.textContent = d.bucket.label;
-      svg.appendChild(xl);
+      if (d.bucket.label) {
+        var xl = el("text", { x: cx, y: padT + plotH + 18, "text-anchor": "middle", fill: "var(--muted)", "font-size": 11 });
+        xl.textContent = d.bucket.label;
+        svg.appendChild(xl);
+      }
       if (d.bucket.sub) {
         var xs = el("text", { x: cx, y: padT + plotH + 31, "text-anchor": "middle", fill: "var(--muted)", "font-size": 10, "font-family": "var(--mono)" });
         xs.textContent = d.bucket.sub;
@@ -563,11 +645,15 @@
           var rect = el("rect", { x: x, y: y, width: barW, height: h, fill: seg.color, rx: isTop ? 4 : 0, ry: isTop ? 4 : 0 });
           svg.appendChild(rect);
           if (isTop && h > 6) svg.appendChild(el("rect", { x: x, y: y + h - 4, width: barW, height: 4, fill: seg.color }));
-          rect.addEventListener("mouseenter", function () { showTip(seg.name + " · <b>" + fmtHM(seg.value) + "</b>", x + barW / 2, y); });
+          rect.addEventListener("mouseenter", function () {
+            showTip(d.bucket.tipLabel + " — " + seg.name + " · <b>" + fmtHM(seg.value) + "</b>", x + barW / 2, y);
+          });
           rect.addEventListener("mouseleave", hideTip);
           yCur -= rawH;
         });
-        if (state.person !== "both") {
+        // Direct labels only while they stay readable; past ~10 bars the
+        // tooltip and the summary strip carry the numbers instead.
+        if (state.person !== "both" && n <= 10) {
           var tl = el("text", { x: x + barW / 2, y: padT + plotH - (g.total / top) * plotH - 8, "text-anchor": "middle", fill: "var(--ink-2)", "font-size": 11, "font-family": "var(--mono)" });
           tl.textContent = fmtHours(g.total);
           svg.appendChild(tl);
@@ -576,12 +662,68 @@
     });
     svg.addEventListener("mouseleave", hideTip);
 
-    $("chart-desc").textContent = "Study time per " + (state.view === "week" ? "day" : "week") + ": " +
+    $("chart-desc").textContent = "Study time per " + currentPeriod().unit + ", " +
+      currentPeriod().title.toLowerCase() + ": " +
       data.map(function (d) {
         return state.person === "both"
-          ? d.bucket.label + ": " + d.groups.map(function (g, i) { return PEOPLE[i].name + " " + fmtHM(g.total); }).join(", ")
-          : d.bucket.label + " " + fmtHM(d.groups[0].total);
+          ? d.bucket.tipLabel + ": " + d.groups.map(function (g, i) { return PEOPLE[i].name + " " + fmtHM(g.total); }).join(", ")
+          : d.bucket.tipLabel + " " + fmtHM(d.groups[0].total);
       }).join("; ") + ".";
+  }
+
+  /* ---------- summary strip ---------- */
+  function renderStatStrip() {
+    var host = $("statstrip");
+    host.textContent = "";
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    var t = toISO(today);
+
+    var spans = [
+      { k: "Today",        a: t,                          b: t },
+      { k: "Last 7 days",  a: toISO(addDays(today, -6)),  b: t },
+      { k: "Last 30 days", a: toISO(addDays(today, -29)), b: t },
+      { k: "All time",     a: "0000-01-01",               b: "9999-12-31" }
+    ];
+
+    spans.forEach(function (s) {
+      var cell = document.createElement("div");
+      cell.className = "cell";
+      var k = document.createElement("span");
+      k.className = "k";
+      k.textContent = s.k;
+      cell.appendChild(k);
+
+      if (state.person === "both") {
+        PEOPLE.forEach(function (p, i) {
+          var pair = document.createElement("div");
+          pair.className = "pair";
+          var dot = document.createElement("span");
+          dot.className = "dot2";
+          dot.style.background = personColor(p.id);
+          var v = document.createElement("span");
+          v.className = "v";
+          v.style.fontSize = "15px";
+          v.textContent = fmtHM(minutesFor(p.id, s.a, s.b));
+          pair.appendChild(dot);
+          pair.appendChild(v);
+          cell.appendChild(pair);
+        });
+      } else {
+        var v = document.createElement("span");
+        v.className = "v";
+        v.textContent = fmtHM(minutesFor(state.person, s.a, s.b));
+        cell.appendChild(v);
+        var days = daysStudied(state.person, s.a, s.b);
+        if (s.k !== "Today") {
+          var sub = document.createElement("span");
+          sub.className = "sub";
+          sub.textContent = days + (days === 1 ? " day" : " days");
+          cell.appendChild(sub);
+        }
+      }
+      host.appendChild(cell);
+    });
   }
 
   function renderLegend() {
@@ -838,17 +980,13 @@
   }
 
   function renderStats() {
-    var today = toISO(new Date());
     var ws = startOfWeek(new Date()), wa = toISO(ws), wb = toISO(addDays(ws, 6));
     if (state.person === "both") {
-      $("stat-today").textContent = PEOPLE.map(function (p) { return fmtHM(minutesFor(p.id, today, today)); }).join(" / ");
       $("stat-week").textContent = PEOPLE.map(function (p) { return fmtHM(minutesFor(p.id, wa, wb)); }).join(" / ");
       $("stat-days").textContent = PEOPLE.map(function (p) { return daysStudied(p.id, wa, wb) + "/7"; }).join(" / ");
     } else {
-      var pid = state.person;
-      $("stat-today").textContent = fmtHM(minutesFor(pid, today, today));
-      $("stat-week").textContent = fmtHM(minutesFor(pid, wa, wb));
-      $("stat-days").textContent = daysStudied(pid, wa, wb) + "/7";
+      $("stat-week").textContent = fmtHM(minutesFor(state.person, wa, wb));
+      $("stat-days").textContent = daysStudied(state.person, wa, wb) + "/7";
     }
   }
 
@@ -882,16 +1020,18 @@
     $("compare-card").hidden = !both;
     $("wyel-note-card").hidden = state.person !== "wyel";
     $("totals-card").hidden = state.person === "wyel";
-    $("chart-h").textContent = both ? "Daily total compared" : aidan ? "Time by subject" : "Wyel's daily total";
-    $("totals-h").textContent = both ? "Totals" : "Totals";
+    var unit = currentPeriod().unit;
+    $("chart-h").textContent = both
+      ? "Total per " + unit + ", compared"
+      : aidan ? "Time by subject" : "Wyel's time per " + unit;
     $("th-name").textContent = both ? "Person" : "Subject";
     $("range-label").textContent = frame.label;
-    $("next").disabled = state.offset <= 0;
 
+    renderPeriods();
     renderTabs();
     if (aidan) {
       renderChips(); renderTimer(); renderPickers(); renderToday();
-      var a = frame.buckets[0].startISO, b = frame.buckets[frame.buckets.length - 1].endISO;
+      var a = frame.startISO, b = frame.endISO;
       var rows = subjectList().map(function (name) {
         var range = 0, all = 0;
         state.sessions.forEach(function (s) {
@@ -902,17 +1042,14 @@
         return { name: name, color: subjectColor(name), range: range, all: all };
       }).sort(function (x, y) { return y.range - x.range || y.all - x.all; });
       fillTotals(rows, true);
-      $("range-total").textContent = fmtHM(aidanDaily(a, b));
     } else if (both) {
       renderCompare(frame);
-      $("range-total").textContent = "";
     } else {
       renderWyelPanel();
-      var wa2 = frame.buckets[0].startISO, wb2 = frame.buckets[frame.buckets.length - 1].endISO;
-      $("range-total").textContent = fmtHM(wyelDaily(wa2, wb2));
     }
     renderChart(frame);
     renderLegend();
+    renderStatStrip();
     renderStats();
     renderStatus();
   }
@@ -955,21 +1092,6 @@
     if (e.key === "Enter") { e.preventDefault(); $("new-subject-btn").click(); }
   });
 
-  $("view-week").addEventListener("click", function () {
-    state.view = "week"; state.offset = 0;
-    $("view-week").setAttribute("aria-pressed", "true");
-    $("view-weeks").setAttribute("aria-pressed", "false");
-    renderAll();
-  });
-  $("view-weeks").addEventListener("click", function () {
-    state.view = "weeks"; state.offset = 0;
-    $("view-week").setAttribute("aria-pressed", "false");
-    $("view-weeks").setAttribute("aria-pressed", "true");
-    renderAll();
-  });
-  $("prev").addEventListener("click", function () { state.offset += 1; renderAll(); });
-  $("next").addEventListener("click", function () { if (state.offset > 0) { state.offset -= 1; renderAll(); } });
-
   var rt = null;
   window.addEventListener("resize", function () {
     clearTimeout(rt);
@@ -982,6 +1104,10 @@
   /* ---------- boot ---------- */
   $("add-date").value = toISO(new Date());
   state.person = loadPerson();
+  try {
+    var savedPeriod = localStorage.getItem("study-log:period");
+    if (savedPeriod && PERIODS.some(function (p) { return p.id === savedPeriod; })) state.period = savedPeriod;
+  } catch (e) {}
   state.running = loadRunning();
   if (state.running) state.selected = state.running.subject;
   if (!state.selected && Array.isArray(CFG.subjects) && CFG.subjects.length) state.selected = CFG.subjects[0];
