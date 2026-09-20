@@ -346,21 +346,59 @@
     { id: "M",  label: "M",  unit: "day",   count: 30, title: "Last 30 days" },
     { id: "3M", label: "3M", unit: "week",  count: 13, title: "Last 13 weeks" },
     { id: "6M", label: "6M", unit: "week",  count: 26, title: "Last 26 weeks" },
-    { id: "Y",  label: "Y",  unit: "month", count: 12, title: "Last 12 months" }
+    { id: "Y",  label: "Y",  unit: "month", count: 12, title: "Last 12 months" },
+    { id: "ALL", label: "All", unit: "auto", count: 0, title: "All time" }
   ];
   function currentPeriod() {
     for (var i = 0; i < PERIODS.length; i++) if (PERIODS[i].id === state.period) return PERIODS[i];
     return PERIODS[1];
   }
-  // The bucket size actually drawn: "D" is hourly for Aidan, daily for the rest.
+  // Earliest day either person has any record for.
+  function earliestISO() {
+    var best = null;
+    state.sessions.forEach(function (s) { if (!best || s.day < best) best = s.day; });
+    if (state.wyel && state.wyel.daily) {
+      Object.keys(state.wyel.daily).forEach(function (d) {
+        if (state.wyel.daily[d] > 0 && (!best || d < best)) best = d;
+      });
+    }
+    return best;
+  }
+
+  // "All" has no fixed span, so pick a bucket size that keeps the bar count sane:
+  // weeks while the history is short, months once it passes about half a year.
+  function allTimeShape() {
+    var first = earliestISO();
+    var now = new Date();
+    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    if (!first) return { unit: "month", count: 12 };
+    var f = fromISO(first);
+    var days = Math.round((today - f) / 86400000) + 1;
+    if (days <= 26 * 7) return { unit: "week", count: Math.max(1, Math.ceil(days / 7)) };
+    var months = (today.getFullYear() - f.getFullYear()) * 12 + (today.getMonth() - f.getMonth()) + 1;
+    return { unit: "month", count: Math.max(1, months) };
+  }
+
+  // The bucket size actually drawn: "D" is hourly for Aidan, daily for the rest,
+  // and "All" resolves to whatever allTimeShape picked.
   function resolvedUnit() {
     var p = currentPeriod();
-    return (p.id === "D" && state.person === "aidan") ? "hour" : p.unit;
+    if (p.id === "D") return state.person === "aidan" ? "hour" : "day";
+    if (p.id === "ALL") return allTimeShape().unit;
+    return p.unit;
+  }
+  function resolvedCount() {
+    var p = currentPeriod();
+    return p.id === "ALL" ? allTimeShape().count : p.count;
   }
 
   function $(id) { return document.getElementById(id); }
   function pad(n) { return n < 10 ? "0" + n : String(n); }
   function toISO(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+  function fromISO(s) {
+    var p = String(s).split("-");
+    return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+  }
   function startOfWeek(d) {
     var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
     x.setDate(x.getDate() - ((x.getDay() + 6) % 7));
@@ -486,6 +524,7 @@
     // "D" becomes a real hour-by-hour view for Aidan, whose timer records a
     // start time. Wyel's sheet gives daily totals only, so his D stays one column.
     var unit = resolvedUnit();
+    var count = resolvedCount();
 
     if (unit === "hour") {
       var iso = toISO(today);
@@ -499,38 +538,38 @@
         });
       }
     } else if (unit === "day") {
-      var start = addDays(today, -(p.count - 1));
-      for (var i = 0; i < p.count; i++) {
+      var start = addDays(today, -(count - 1));
+      for (var i = 0; i < count; i++) {
         var d = addDays(start, i);
         var lbl;
-        if (p.count === 1) lbl = shortDate(d);
-        else if (p.count <= 7) lbl = DAY_INITIALS[(d.getDay() + 6) % 7];
-        else lbl = (i === p.count - 1 || i % 5 === 0) ? String(d.getDate()) : "";
+        if (count === 1) lbl = shortDate(d);
+        else if (count <= 7) lbl = DAY_INITIALS[(d.getDay() + 6) % 7];
+        else lbl = (i === count - 1 || i % 5 === 0) ? String(d.getDate()) : "";
         buckets.push({
           label: lbl,
-          sub: p.count <= 7 && p.count > 1 ? String(d.getDate()) : "",
+          sub: count <= 7 && count > 1 ? String(d.getDate()) : "",
           startISO: toISO(d), endISO: toISO(d),
           tipLabel: d.getDate() + "." + (d.getMonth() + 1) + "."
         });
       }
     } else if (unit === "week") {
       var thisMonday = startOfWeek(today);
-      for (var w = 0; w < p.count; w++) {
-        var s = addDays(thisMonday, -7 * (p.count - 1 - w));
+      for (var w = 0; w < count; w++) {
+        var s = addDays(thisMonday, -7 * (count - 1 - w));
         var e = addDays(s, 6);
         buckets.push({
-          label: (w === p.count - 1 || w % 4 === 0) ? s.getDate() + "." + (s.getMonth() + 1) : "",
+          label: (w === count - 1 || w % 4 === 0) ? s.getDate() + "." + (s.getMonth() + 1) : "",
           sub: "",
           startISO: toISO(s), endISO: toISO(e),
           tipLabel: "week of " + s.getDate() + "." + (s.getMonth() + 1) + "."
         });
       }
     } else {
-      for (var m = 0; m < p.count; m++) {
-        var first = new Date(today.getFullYear(), today.getMonth() - (p.count - 1 - m), 1);
+      for (var m = 0; m < count; m++) {
+        var first = new Date(today.getFullYear(), today.getMonth() - (count - 1 - m), 1);
         var last = new Date(first.getFullYear(), first.getMonth() + 1, 0);
         buckets.push({
-          label: MONTH_INITIALS[first.getMonth()],
+          label: (count <= 18 || m === count - 1 || m % 3 === 0) ? MONTH_INITIALS[first.getMonth()] : "",
           sub: first.getMonth() === 0 ? String(first.getFullYear()).slice(2) : "",
           startISO: toISO(first), endISO: toISO(last),
           tipLabel: first.toLocaleDateString([], { month: "long", year: "numeric" })
@@ -539,7 +578,7 @@
     }
 
     var a = buckets[0].startISO, b = buckets[buckets.length - 1].endISO;
-    var label = p.count === 1 ? p.title : p.title;
+    var label = count === 1 ? p.title : p.title;
     return { label: label, buckets: buckets, startISO: a, endISO: b };
   }
 
