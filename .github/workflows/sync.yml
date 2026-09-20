@@ -1,0 +1,40 @@
+name: Sync Wyel
+
+on:
+  schedule:
+    - cron: "17 * * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: sync-wyel
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Fetch and aggregate Wyel's sheet
+        env:
+          WYEL_CSV_URL: ${{ vars.WYEL_CSV_URL }}
+        run: node scripts/sync-wyel.mjs
+
+      - name: Commit if changed
+        run: |
+          if [[ -z "$(git status --porcelain data/wyel.json)" ]]; then
+            echo "Nothing to commit."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/wyel.json
+          git commit -m "Sync Wyel's study log"
+          git push
