@@ -8,7 +8,302 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
+<!doctype html>
+  <html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Study Log · Aidan &amp; Wyel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+  <style>
   :root {
+    --plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e;
+    --muted:#898781; --grid:#e1e0d9; --rule:#c3c2b7;
+    --hairline:rgba(11,11,11,0.10); --field:#ffffff; --live:#0ca30c; --crit:#d03b3b;
+    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+    --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948; --s-other:#898781;
+    --ui:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --plane:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7;
+      --muted:#898781; --grid:#2c2c2a; --rule:#383835;
+      --hairline:rgba(255,255,255,0.10); --field:#242423;
+      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+      --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --plane:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7;
+    --muted:#898781; --grid:#2c2c2a; --rule:#383835;
+    --hairline:rgba(255,255,255,0.10); --field:#242423;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+    --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+    color-scheme: dark;
+  }
+  
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    background: var(--plane); color: var(--ink);
+    font-family: var(--ui); font-size: 15px; line-height: 1.45;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; }
+  [hidden] { display: none !important; }
+  
+  .shell { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 56px; }
+  
+  header.top {
+    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+    background: var(--plane); border-bottom: 1px solid var(--rule);
+    padding-block: 16px 0;
+  }
+  .toprow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 26px; }
+  .wordmark { font-size: 19px; font-weight: 700; letter-spacing: -0.015em; margin: 0; margin-right: auto; }
+  .wordmark span { color: var(--muted); font-weight: 500; }
+  .topstat { display: flex; align-items: baseline; gap: 7px; }
+  .topstat .k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; }
+  .topstat .v { font-family: var(--mono); font-size: 16px; font-weight: 500; font-variant-numeric: tabular-nums; }
+  
+  .tabs { display: flex; margin-top: 14px; }
+  .tab {
+    font: inherit; font-size: 14px; font-weight: 500; background: transparent;
+    border: 0; cursor: pointer; color: var(--muted); padding: 9px 16px 10px;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .tab:hover { color: var(--ink); }
+  .tab[aria-selected="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--tabcolor, var(--ink)); }
+  .tab .pdot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+  
+  .grid { display: grid; grid-template-columns: minmax(0,360px) minmax(0,1fr); gap: 22px; align-items: start; margin-top: 22px; }
+  .grid.wide { grid-template-columns: minmax(0,1fr); }
+  @media (max-width: 860px) { .grid { grid-template-columns: minmax(0,1fr); } }
+  .col { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+  
+  .card { background: var(--surface); border: 1px solid var(--hairline); padding: 18px; }
+  .card-head { display: flex; align-items: center; gap: 12px; margin: 0 0 14px; }
+  .card-head h2, .card > h2 {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+    font-weight: 700; color: var(--muted); margin: 0;
+  }
+  .card-head h2 { margin-right: auto; }
+  .card > h2 { margin-bottom: 14px; }
+  
+  .readout {
+    font-family: var(--mono); font-size: clamp(40px,11vw,54px); font-weight: 500;
+    letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; margin: 2px 0 4px;
+  }
+  .readout.idle { color: var(--rule); }
+  .running-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); min-height: 20px; margin-bottom: 16px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); flex: none; animation: pulse 1.8s ease-in-out infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+  @media (prefers-reduced-motion: reduce) { .dot { animation: none } }
+  
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+  .chip {
+    font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 10px 6px 8px;
+    background: transparent; border: 1px solid var(--hairline); color: var(--ink-2);
+    cursor: pointer; display: inline-flex; align-items: center; gap: 7px; text-align: left;
+  }
+  .chip:hover:not(:disabled) { border-color: var(--rule); color: var(--ink); }
+  .chip[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); font-weight: 600; }
+  .chip:disabled { opacity: .45; cursor: not-allowed; }
+  .swatch { width: 9px; height: 9px; flex: none; border-radius: 2px; }
+  
+  .btn {
+    font: inherit; font-weight: 600; font-size: 14px; padding: 11px 18px;
+    border: 1px solid var(--ink); background: var(--ink); color: var(--plane);
+    cursor: pointer; width: 100%;
+  }
+  .btn:hover:not(:disabled) { opacity: .86; }
+  .btn:disabled { opacity: .32; cursor: not-allowed; }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.sm { width: auto; padding: 7px 12px; font-size: 12.5px; font-weight: 500; background: transparent; color: var(--ink-2); border-color: var(--hairline); }
+  .btn.sm:hover:not(:disabled) { color: var(--ink); border-color: var(--rule); opacity: 1; }
+  :is(button,input,select,summary):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+  
+  .row { display: flex; gap: 8px; flex-wrap: wrap; }
+  label.fld { display: flex; flex-direction: column; gap: 5px; flex: 1 1 110px; min-width: 0; }
+  label.fld > span { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
+  input, select {
+    
+    <main class="grid" id="layout">
+    <div class="col" id="col-left">
+    <section class="card">
+    <div class="card-head"><h2>Timer</h2><span class="s-min" id="timer-who"></span></div>
+    <div class="chips" id="timer-chips" role="group" aria-label="Choose subject"></div>
+    <div class="readout idle" id="readout">00:00:00</div>
+    <div class="running-line" id="running-line"></div>
+    <button class="btn" id="startstop" disabled>Start</button>
+    </section>
+    
+    <section class="card">
+    <h2>Add by hand</h2>
+    <div class="row">
+    <label class="fld" style="flex:2 1 160px">
+    <span>Subject</span><select id="add-subject"></select>
+    </label>
+    <label class="fld"><span>Minutes</span>
+    <input type="number" id="add-minutes" min="1" max="1440" step="5" placeholder="45">
+    </label>
+    </div>
+    <div class="row" style="margin-top:8px">
+    <label class="fld"><span>Date</span><input type="date" id="add-date"></label>
+    <label class="fld" style="flex:2 1 150px"><span>Note (optional)</span>
+    <input type="text" id="add-note" placeholder="Problem set 3" maxlength="90">
+    </label>
+    </div>
+    <button class="btn ghost" id="add-btn" style="margin-top:12px">Add session</button>
+    
+    <details class="manage">
+    <summary>Add a subject just for this session</summary>
+    <div class="row" style="margin-top:10px">
+    <input type="text" id="new-subject" placeholder="Subject name" maxlength="60">
+    <button class="btn sm" id="new-subject-btn">Use it</button>
+    </div>
+    <p class="empty" style="margin:8px 0 0">
+    Subjects live in <code>config.js</code> in the repo. Anything typed here is stored on the
+    session itself, so it shows up in the charts without needing an edit.
+    </p>
+    </details>
+    </section>
+    
+    <section class="card">
+    <div class="card-head"><h2>Today</h2><span class="s-min" id="today-total"></span></div>
+    <ul class="sessions" id="today-list"></ul>
+    </section>
+    </div>
+    
+    <div class="col" id="col-right">
+    <section class="card" id="compare-card" hidden>
+    <div class="card-head"><h2>Standings</h2><span class="s-min" id="cmp-period"></span></div>
+    <div class="cmp-list" id="versus"></div>
+    <div class="vs-sub" id="vs-caption"></div>
+    </section>
+    
+    <section class="card" id="wyel-note-card" hidden>
+    <div class="card-head"><h2>Wyel</h2><span class="s-min" id="wyel-synced"></span></div>
+    <p class="empty" id="wyel-note" style="padding:0"></p>
+    </section>
+    
+    <section class="card">
+    <div class="card-head">
+    <h2 id="chart-h">Time by subject</h2>
+    <span class="range-label" id="range-label">–</span>
+    <div class="seg" id="periods" role="group" aria-label="Time period"></div>
+    </div>
+    <div class="chart-wrap" id="chart-wrap">
+    <svg class="chart" id="chart" role="img" aria-labelledby="chart-desc"></svg>
+    <p id="chart-desc" class="vh"></p>
+    <div class="tip" id="tip"></div>
+    </div>
+    <div class="legend" id="legend"></div>
+    <div class="statstrip" id="statstrip"></div>
+    </section>
+    
+    <section class="card" id="totals-card">
+    <div class="card-head"><h2 id="totals-h">Totals</h2></div>
+    <table class="totals">
+    <thead><tr><th id="th-name">Subject</th><th>This period</th><th>All time</th></tr></thead>
+    <tbody id="totals-body"></tbody>
+    </table>
+    </section>
+    </div>
+    </main>
+    
+    <div class="status" id="status">Connecting…</div>
+    </div>
+    
+    <script src="config.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+    (function () {
+      "use strict";
+      
+      var CFG = window.STUDY_LOG_CONFIG || {};
+      var DIRECT_PEOPLE = (Array.isArray(CFG.people) && CFG.people.length) ? CFG.people : [{ id: "aidan", name: "Aidan" }];
+      var PEOPLE = DIRECT_PEOPLE.concat([{ id: "wyel", name: "Wyel" }]);
+      var PERSON_COLORS = ["var(--s1)", "var(--s3)", "var(--s4)", "var(--s5)", "var(--s7)", "var(--s8)"];
+      var TIMER_KEY = "study-log:running";
+      var PERSON_KEY = "study-log:person";
+      
+      var state = {
+        sb: null,
+          sessions: [], // every direct person's rows, from Supabase
+      wyel: null, // parsed data/wyel.json
+      running: null,
+      selected: null,
+      adhocSubject: "",
+      person: "aidan",
+      period: "W",
+      loaded: false,
+      error: ""
+    };
+    
+    // Markets-app style spans. `unit` is the bucket size the chart draws.
+      var PERIODS = [
+      { id: "D", label: "D", unit: "day", count: 1, title: "Today" },
+      { id: "W", label: "W", unit: "day", count: 7, title: "Last 7 days" },
+      { id: "M", label: "M", unit: "day", count: 30, title: "Last 30 days" },
+      { id: "3M", label: "3M", unit: "week", count: 13, title: "Last 13 weeks" },
+      { id: "6M", label: "6M", unit: "week", count: 26, title: "Last 26 weeks" },
+      { id: "Y", label: "Y", unit: "month", count: 12, title: "Last 12 months" },
+      { id: "ALL", label: "All", unit: "auto", count: 0, title: "All time" }
+      ];
+      function currentPeriod() {
+        for (var i = 0; i < PERIODS.length; i++) if (PERIODS[i].id === state.period) return PERIODS[i];
+        return PERIODS[1];
+      }
+      // Earliest day either person has any record for.
+      function earliestISO() {
+        var best = null;
+        state.sessions.forEach(function (s) { if (!best || s.day < best) best = s.day; });
+        if (state.wyel && state.wyel.daily) {
+          Object.keys(state.wyel.daily).forEach(function (d) {
+            if (state.wyel.daily[d] > 0 && (!best || d < best)) best = d;
+          });
+        }
+        return best;
+      }
+      
+      // "All" has no fixed span, so pick a bucket size that keeps the bar count sane:
+      // weeks while the history is short, months once it passes about half a year.
+      function allTimeShape() {
+        var first = earliestISO();
+        var now = new Date();
+        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        if (!first) return { unit: "month", count: 12 };
+        var f = fromISO(first);
+        var days = Math.round((today - f) / 86400000) + 1;
+        if (days <= 26 * 7) return { unit: "week", count: Math.max(1, Math.ceil(days / 7)) };
+        var months = (today.getFullYear() - f.getFullYear()) * 12 + (today.getMonth() - f.getMonth()) + 1;
+        return { unit: "month", count: Math.max(1, months) };
+      }
+      
+      // The bucket size actually drawn: "D" is hourly for direct people, daily for the rest,
+      // and "All" resolves to whatever allTimeShape picked.
+      function resolvedUnit() {
+        var p = currentPeriod();
+        if (p.id === "D") return "hour";
+        if (p.id === "ALL") return allTimeShape().unit;
+        return p.unit;
+      }
+      function resolvedCount() {
+        var p = currentPeriod();
+        return p.id === "ALL" ? allTimeShape().count : p.count;
+      }
+      
+      function $(id) { return document.getElementById(id); }
+      function pad(n) { return n < 10 ? "0" + n : String(n); }
+      function toISO(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+      :root {
     --plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e;
     --muted:#898781; --grid:#e1e0d9; --rule:#c3c2b7;
     --hairline:rgba(11,11,11,0.10); --field:#ffffff; --live:#0ca30c; --crit:#d03b3b;
