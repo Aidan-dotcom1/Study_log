@@ -21,5 +21,13 @@ window.STUDY_LOG_CONFIG = {
     "IAW",
     "BA",
     "Psychology: Learning and Attention"
-  ]
+  ],
+
+    // People who log time directly through the app (each gets their own tab, timer,
+    // and Supabase-backed history). Wyel logs via the spreadsheet sync instead, so
+    // he's not listed here.
+    people: [
+      { id: "aidan", name: "Aidan" },
+      { id: "daniel", name: "Daniel" }
+        ]
 };
