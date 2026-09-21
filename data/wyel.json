@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-09-21T00:37:13.617Z",
-  "rowsInSheet": 99,
+  "updatedAt": "2026-09-21T17:26:52.268Z",
+  "rowsInSheet": 100,
   "sessionsUsed": 99,
-  "rowsSkipped": 0,
+  "rowsSkipped": 1,
   "firstDay": "2026-06-02",
   "lastDay": "2026-09-19",
   "totalMinutes": 11874,
@@ -110,7 +110,8 @@
     "Chapter 9 - Additional Problems": 267,
     "Error Log Review (Entries 46-54)": 114,
     "Chapter 10 The Graphs of Quadratic Equations and Polynomials": 591,
-    "Chapter 10 Additonal Problems": 266
+    "Chapter 10 Additonal Problems": 266,
+    "Chapter 11 Additonal Problems": 140
   },
   "hourly": {
     "2026-07-28": [
