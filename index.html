@@ -8,1571 +8,1285 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
-<!doctype html>
-  <html lang="en">
-  <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Study Log · Aidan &amp; Wyel</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
-  <style>
-  :root {
-    --plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e;
-    --muted:#898781; --grid:#e1e0d9; --rule:#c3c2b7;
-    --hairline:rgba(11,11,11,0.10); --field:#ffffff; --live:#0ca30c; --crit:#d03b3b;
-    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
-    --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948; --s-other:#898781;
-    --ui:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --plane:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7;
-      --muted:#898781; --grid:#2c2c2a; --rule:#383835;
-      --hairline:rgba(255,255,255,0.10); --field:#242423;
-      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
-      --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --plane:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7;
-    --muted:#898781; --grid:#2c2c2a; --rule:#383835;
-    --hairline:rgba(255,255,255,0.10); --field:#242423;
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
-    --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
-    color-scheme: dark;
-  }
-  
-  * { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body {
-    background: var(--plane); color: var(--ink);
-    font-family: var(--ui); font-size: 15px; line-height: 1.45;
-    -webkit-font-smoothing: antialiased;
-  }
-  img { max-width: 100%; }
-  [hidden] { display: none !important; }
-  
-  .shell { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 56px; }
-  
-  header.top {
-    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
-    background: var(--plane); border-bottom: 1px solid var(--rule);
-    padding-block: 16px 0;
-  }
-  .toprow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 26px; }
-  .wordmark { font-size: 19px; font-weight: 700; letter-spacing: -0.015em; margin: 0; margin-right: auto; }
-  .wordmark span { color: var(--muted); font-weight: 500; }
-  .topstat { display: flex; align-items: baseline; gap: 7px; }
-  .topstat .k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; }
-  .topstat .v { font-family: var(--mono); font-size: 16px; font-weight: 500; font-variant-numeric: tabular-nums; }
-  
-  .tabs { display: flex; margin-top: 14px; }
-  .tab {
-    font: inherit; font-size: 14px; font-weight: 500; background: transparent;
-    border: 0; cursor: pointer; color: var(--muted); padding: 9px 16px 10px;
-    border-bottom: 2px solid transparent; margin-bottom: -1px;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .tab:hover { color: var(--ink); }
-  .tab[aria-selected="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--tabcolor, var(--ink)); }
-  .tab .pdot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
-  
-  .grid { display: grid; grid-template-columns: minmax(0,360px) minmax(0,1fr); gap: 22px; align-items: start; margin-top: 22px; }
-  .grid.wide { grid-template-columns: minmax(0,1fr); }
-  @media (max-width: 860px) { .grid { grid-template-columns: minmax(0,1fr); } }
-  .col { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
-  
-  .card { background: var(--surface); border: 1px solid var(--hairline); padding: 18px; }
-  .card-head { display: flex; align-items: center; gap: 12px; margin: 0 0 14px; }
-  .card-head h2, .card > h2 {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
-    font-weight: 700; color: var(--muted); margin: 0;
-  }
-  .card-head h2 { margin-right: auto; }
-  .card > h2 { margin-bottom: 14px; }
-  
-  .readout {
-    font-family: var(--mono); font-size: clamp(40px,11vw,54px); font-weight: 500;
-    letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; margin: 2px 0 4px;
-  }
-  .readout.idle { color: var(--rule); }
-  .running-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); min-height: 20px; margin-bottom: 16px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); flex: none; animation: pulse 1.8s ease-in-out infinite; }
-  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
-  @media (prefers-reduced-motion: reduce) { .dot { animation: none } }
-  
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-  .chip {
-    font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 10px 6px 8px;
-    background: transparent; border: 1px solid var(--hairline); color: var(--ink-2);
-    cursor: pointer; display: inline-flex; align-items: center; gap: 7px; text-align: left;
-  }
-  .chip:hover:not(:disabled) { border-color: var(--rule); color: var(--ink); }
-  .chip[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); font-weight: 600; }
-  .chip:disabled { opacity: .45; cursor: not-allowed; }
-  .swatch { width: 9px; height: 9px; flex: none; border-radius: 2px; }
-  
-  .btn {
-    font: inherit; font-weight: 600; font-size: 14px; padding: 11px 18px;
-    border: 1px solid var(--ink); background: var(--ink); color: var(--plane);
-    cursor: pointer; width: 100%;
-  }
-  .btn:hover:not(:disabled) { opacity: .86; }
-  .btn:disabled { opacity: .32; cursor: not-allowed; }
-  .btn.ghost { background: transparent; color: var(--ink); }
-  .btn.sm { width: auto; padding: 7px 12px; font-size: 12.5px; font-weight: 500; background: transparent; color: var(--ink-2); border-color: var(--hairline); }
-  .btn.sm:hover:not(:disabled) { color: var(--ink); border-color: var(--rule); opacity: 1; }
-  :is(button,input,select,summary):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-  
-  .row { display: flex; gap: 8px; flex-wrap: wrap; }
-  label.fld { display: flex; flex-direction: column; gap: 5px; flex: 1 1 110px; min-width: 0; }
-  label.fld > span { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
-  input, select {
-    
-    <main class="grid" id="layout">
-    <div class="col" id="col-left">
-    <section class="card">
-    <div class="card-head"><h2>Timer</h2><span class="s-min" id="timer-who"></span></div>
-    <div class="chips" id="timer-chips" role="group" aria-label="Choose subject"></div>
-    <div class="readout idle" id="readout">00:00:00</div>
-    <div class="running-line" id="running-line"></div>
-    <button class="btn" id="startstop" disabled>Start</button>
-    </section>
-    
-    <section class="card">
-    <h2>Add by hand</h2>
-    <div class="row">
-    <label class="fld" style="flex:2 1 160px">
-    <span>Subject</span><select id="add-subject"></select>
-    </label>
-    <label class="fld"><span>Minutes</span>
-    <input type="number" id="add-minutes" min="1" max="1440" step="5" placeholder="45">
-    </label>
-    </div>
-    <div class="row" style="margin-top:8px">
-    <label class="fld"><span>Date</span><input type="date" id="add-date"></label>
-    <label class="fld" style="flex:2 1 150px"><span>Note (optional)</span>
-    <input type="text" id="add-note" placeholder="Problem set 3" maxlength="90">
-    </label>
-    </div>
-    <button class="btn ghost" id="add-btn" style="margin-top:12px">Add session</button>
-    
-    <details class="manage">
-    <summary>Add a subject just for this session</summary>
-    <div class="row" style="margin-top:10px">
-    <input type="text" id="new-subject" placeholder="Subject name" maxlength="60">
-    <button class="btn sm" id="new-subject-btn">Use it</button>
-    </div>
-    <p class="empty" style="margin:8px 0 0">
-    Subjects live in <code>config.js</code> in the repo. Anything typed here is stored on the
-    session itself, so it shows up in the charts without needing an edit.
-    </p>
-    </details>
-    </section>
-    
-    <section class="card">
-    <div class="card-head"><h2>Today</h2><span class="s-min" id="today-total"></span></div>
-    <ul class="sessions" id="today-list"></ul>
-    </section>
-    </div>
-    
-    <div class="col" id="col-right">
-    <section class="card" id="compare-card" hidden>
-    <div class="card-head"><h2>Standings</h2><span class="s-min" id="cmp-period"></span></div>
-    <div class="cmp-list" id="versus"></div>
-    <div class="vs-sub" id="vs-caption"></div>
-    </section>
-    
-    <section class="card" id="wyel-note-card" hidden>
-    <div class="card-head"><h2>Wyel</h2><span class="s-min" id="wyel-synced"></span></div>
-    <p class="empty" id="wyel-note" style="padding:0"></p>
-    </section>
-    
-    <section class="card">
-    <div class="card-head">
-    <h2 id="chart-h">Time by subject</h2>
-    <span class="range-label" id="range-label">–</span>
-    <div class="seg" id="periods" role="group" aria-label="Time period"></div>
-    </div>
-    <div class="chart-wrap" id="chart-wrap">
-    <svg class="chart" id="chart" role="img" aria-labelledby="chart-desc"></svg>
-    <p id="chart-desc" class="vh"></p>
-    <div class="tip" id="tip"></div>
-    </div>
-    <div class="legend" id="legend"></div>
-    <div class="statstrip" id="statstrip"></div>
-    </section>
-    
-    <section class="card" id="totals-card">
-    <div class="card-head"><h2 id="totals-h">Totals</h2></div>
-    <table class="totals">
-    <thead><tr><th id="th-name">Subject</th><th>This period</th><th>All time</th></tr></thead>
-    <tbody id="totals-body"></tbody>
-    </table>
-    </section>
-    </div>
-    </main>
-    
-    <div class="status" id="status">Connecting…</div>
-    </div>
-    
-    <script src="config.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-    (function () {
-      "use strict";
-      
-      var CFG = window.STUDY_LOG_CONFIG || {};
-      var DIRECT_PEOPLE = (Array.isArray(CFG.people) && CFG.people.length) ? CFG.people : [{ id: "aidan", name: "Aidan" }];
-      var PEOPLE = DIRECT_PEOPLE.concat([{ id: "wyel", name: "Wyel" }]);
-      var PERSON_COLORS = ["var(--s1)", "var(--s3)", "var(--s4)", "var(--s5)", "var(--s7)", "var(--s8)"];
-      var TIMER_KEY = "study-log:running";
-      var PERSON_KEY = "study-log:person";
-      
-      var state = {
-        sb: null,
-          sessions: [], // every direct person's rows, from Supabase
-      wyel: null, // parsed data/wyel.json
-      running: null,
-      selected: null,
-      adhocSubject: "",
-      person: "aidan",
-      period: "W",
-      loaded: false,
-      error: ""
-    };
-    
-    // Markets-app style spans. `unit` is the bucket size the chart draws.
-      var PERIODS = [
-      { id: "D", label: "D", unit: "day", count: 1, title: "Today" },
-      { id: "W", label: "W", unit: "day", count: 7, title: "Last 7 days" },
-      { id: "M", label: "M", unit: "day", count: 30, title: "Last 30 days" },
-      { id: "3M", label: "3M", unit: "week", count: 13, title: "Last 13 weeks" },
-      { id: "6M", label: "6M", unit: "week", count: 26, title: "Last 26 weeks" },
-      { id: "Y", label: "Y", unit: "month", count: 12, title: "Last 12 months" },
-      { id: "ALL", label: "All", unit: "auto", count: 0, title: "All time" }
-      ];
-      function currentPeriod() {
-        for (var i = 0; i < PERIODS.length; i++) if (PERIODS[i].id === state.period) return PERIODS[i];
-        return PERIODS[1];
-      }
-      // Earliest day either person has any record for.
-      function earliestISO() {
-        var best = null;
-        state.sessions.forEach(function (s) { if (!best || s.day < best) best = s.day; });
-        if (state.wyel && state.wyel.daily) {
-          Object.keys(state.wyel.daily).forEach(function (d) {
-            if (state.wyel.daily[d] > 0 && (!best || d < best)) best = d;
-          });
-        }
-        return best;
-      }
-      
-      // "All" has no fixed span, so pick a bucket size that keeps the bar count sane:
-      // weeks while the history is short, months once it passes about half a year.
-      function allTimeShape() {
-        var first = earliestISO();
-        var now = new Date();
-        var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-        if (!first) return { unit: "month", count: 12 };
-        var f = fromISO(first);
-        var days = Math.round((today - f) / 86400000) + 1;
-        if (days <= 26 * 7) return { unit: "week", count: Math.max(1, Math.ceil(days / 7)) };
-        var months = (today.getFullYear() - f.getFullYear()) * 12 + (today.getMonth() - f.getMonth()) + 1;
-        return { unit: "month", count: Math.max(1, months) };
-      }
-      
-      // The bucket size actually drawn: "D" is hourly for direct people, daily for the rest,
-      // and "All" resolves to whatever allTimeShape picked.
-      function resolvedUnit() {
-        var p = currentPeriod();
-        if (p.id === "D") return "hour";
-        if (p.id === "ALL") return allTimeShape().unit;
-        return p.unit;
-      }
-      function resolvedCount() {
-        var p = currentPeriod();
-        return p.id === "ALL" ? allTimeShape().count : p.count;
-      }
-      
-      function $(id) { return document.getElementById(id); }
-      function pad(n) { return n < 10 ? "0" + n : String(n); }
-      function toISO(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
-      :root {
-    --plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e;
-    --muted:#898781; --grid:#e1e0d9; --rule:#c3c2b7;
-    --hairline:rgba(11,11,11,0.10); --field:#ffffff; --live:#0ca30c; --crit:#d03b3b;
-    --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
-    --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948; --s-other:#898781;
-    --ui:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
-    --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
-    color-scheme: light;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --plane:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7;
-      --muted:#898781; --grid:#2c2c2a; --rule:#383835;
-      --hairline:rgba(255,255,255,0.10); --field:#242423;
-      --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
-      --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
-      color-scheme: dark;
-    }
-  }
-  :root[data-theme="dark"] {
-    --plane:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7;
-    --muted:#898781; --grid:#2c2c2a; --rule:#383835;
-    --hairline:rgba(255,255,255,0.10); --field:#242423;
-    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
-    --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
-    color-scheme: dark;
-  }
+:root {
+--plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink-2:#52514e;
+--muted:#898781; --grid:#e1e0d9; --rule:#c3c2b7;
+--hairline:rgba(11,11,11,0.10); --field:#ffffff; --live:#0ca30c; --crit:#d03b3b;
+--s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100;
+--s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948; --s-other:#898781;
+--ui:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+--mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+:root:not([data-theme="light"]) {
+--plane:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7;
+--muted:#898781; --grid:#2c2c2a; --rule:#383835;
+--hairline:rgba(255,255,255,0.10); --field:#242423;
+--s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+--s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+color-scheme: dark;
+}
+}
+:root[data-theme="dark"] {
+--plane:#0d0d0d; --surface:#1a1a19; --ink:#ffffff; --ink-2:#c3c2b7;
+--muted:#898781; --grid:#2c2c2a; --rule:#383835;
+--hairline:rgba(255,255,255,0.10); --field:#242423;
+--s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500;
+--s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+color-scheme: dark;
+}
 
-  * { box-sizing: border-box; }
-  html, body { margin: 0; }
-  body {
-    background: var(--plane); color: var(--ink);
-    font-family: var(--ui); font-size: 15px; line-height: 1.45;
-    -webkit-font-smoothing: antialiased;
-  }
-  img { max-width: 100%; }
-  [hidden] { display: none !important; }
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+background: var(--plane); color: var(--ink);
+font-family: var(--ui); font-size: 15px; line-height: 1.45;
+-webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; }
+[hidden] { display: none !important; }
 
-  .shell { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 56px; }
+.shell { max-width: 1180px; margin: 0 auto; padding-inline: 20px; padding-block: 0 56px; }
 
-  header.top {
-    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
-    background: var(--plane); border-bottom: 1px solid var(--rule);
-    padding-block: 16px 0;
-  }
-  .toprow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 26px; }
-  .wordmark { font-size: 19px; font-weight: 700; letter-spacing: -0.015em; margin: 0; margin-right: auto; }
-  .wordmark span { color: var(--muted); font-weight: 500; }
-  .topstat { display: flex; align-items: baseline; gap: 7px; }
-  .topstat .k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; }
-  .topstat .v { font-family: var(--mono); font-size: 16px; font-weight: 500; font-variant-numeric: tabular-nums; }
+header.top {
+position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20;
+background: var(--plane); border-bottom: 1px solid var(--rule);
+padding-block: 16px 0;
+}
+.toprow { display: flex; flex-wrap: wrap; align-items: baseline; gap: 10px 26px; }
+.wordmark { font-size: 19px; font-weight: 700; letter-spacing: -0.015em; margin: 0; margin-right: auto; }
+.wordmark span { color: var(--muted); font-weight: 500; }
+.topstat { display: flex; align-items: baseline; gap: 7px; }
+.topstat .k { font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; }
+.topstat .v { font-family: var(--mono); font-size: 16px; font-weight: 500; font-variant-numeric: tabular-nums; }
 
-  .tabs { display: flex; margin-top: 14px; }
-  .tab {
-    font: inherit; font-size: 14px; font-weight: 500; background: transparent;
-    border: 0; cursor: pointer; color: var(--muted); padding: 9px 16px 10px;
-    border-bottom: 2px solid transparent; margin-bottom: -1px;
-    display: inline-flex; align-items: center; gap: 8px;
-  }
-  .tab:hover { color: var(--ink); }
-  .tab[aria-selected="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--tabcolor, var(--ink)); }
-  .tab .pdot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
+.tabs { display: flex; margin-top: 14px; }
+.tab {
+font: inherit; font-size: 14px; font-weight: 500; background: transparent;
+border: 0; cursor: pointer; color: var(--muted); padding: 9px 16px 10px;
+border-bottom: 2px solid transparent; margin-bottom: -1px;
+display: inline-flex; align-items: center; gap: 8px;
+}
+.tab:hover { color: var(--ink); }
+.tab[aria-selected="true"] { color: var(--ink); font-weight: 600; border-bottom-color: var(--tabcolor, var(--ink)); }
+.tab .pdot { width: 8px; height: 8px; border-radius: 50%; flex: none; }
 
-  .grid { display: grid; grid-template-columns: minmax(0,360px) minmax(0,1fr); gap: 22px; align-items: start; margin-top: 22px; }
-  .grid.wide { grid-template-columns: minmax(0,1fr); }
-  @media (max-width: 860px) { .grid { grid-template-columns: minmax(0,1fr); } }
-  .col { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+.grid { display: grid; grid-template-columns: minmax(0,360px) minmax(0,1fr); gap: 22px; align-items: start; margin-top: 22px; }
+.grid.wide { grid-template-columns: minmax(0,1fr); }
+@media (max-width: 860px) { .grid { grid-template-columns: minmax(0,1fr); } }
+.col { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
 
-  .card { background: var(--surface); border: 1px solid var(--hairline); padding: 18px; }
-  .card-head { display: flex; align-items: center; gap: 12px; margin: 0 0 14px; }
-  .card-head h2, .card > h2 {
-    font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
-    font-weight: 700; color: var(--muted); margin: 0;
-  }
-  .card-head h2 { margin-right: auto; }
-  .card > h2 { margin-bottom: 14px; }
+.card { background: var(--surface); border: 1px solid var(--hairline); padding: 18px; }
+.card-head { display: flex; align-items: center; gap: 12px; margin: 0 0 14px; }
+.card-head h2, .card > h2 {
+font-size: 10px; text-transform: uppercase; letter-spacing: 0.12em;
+font-weight: 700; color: var(--muted); margin: 0;
+}
+.card-head h2 { margin-right: auto; }
+.card > h2 { margin-bottom: 14px; }
 
-  .readout {
-    font-family: var(--mono); font-size: clamp(40px,11vw,54px); font-weight: 500;
-    letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; margin: 2px 0 4px;
-  }
-  .readout.idle { color: var(--rule); }
-  .running-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); min-height: 20px; margin-bottom: 16px; }
-  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); flex: none; animation: pulse 1.8s ease-in-out infinite; }
-  @keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
-  @media (prefers-reduced-motion: reduce) { .dot { animation: none } }
+.readout {
+font-family: var(--mono); font-size: clamp(40px,11vw,54px); font-weight: 500;
+letter-spacing: -0.03em; font-variant-numeric: tabular-nums; line-height: 1; margin: 2px 0 4px;
+}
+.readout.idle { color: var(--rule); }
+.running-line { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--ink-2); min-height: 20px; margin-bottom: 16px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--live); flex: none; animation: pulse 1.8s ease-in-out infinite; }
+@keyframes pulse { 0%,100% { opacity: 1 } 50% { opacity: .25 } }
+@media (prefers-reduced-motion: reduce) { .dot { animation: none } }
 
-  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
-  .chip {
-    font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 10px 6px 8px;
-    background: transparent; border: 1px solid var(--hairline); color: var(--ink-2);
-    cursor: pointer; display: inline-flex; align-items: center; gap: 7px; text-align: left;
-  }
-  .chip:hover:not(:disabled) { border-color: var(--rule); color: var(--ink); }
-  .chip[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); font-weight: 600; }
-  .chip:disabled { opacity: .45; cursor: not-allowed; }
-  .swatch { width: 9px; height: 9px; flex: none; border-radius: 2px; }
+.chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 16px; }
+.chip {
+font: inherit; font-size: 12.5px; font-weight: 500; padding: 6px 10px 6px 8px;
+background: transparent; border: 1px solid var(--hairline); color: var(--ink-2);
+cursor: pointer; display: inline-flex; align-items: center; gap: 7px; text-align: left;
+}
+.chip:hover:not(:disabled) { border-color: var(--rule); color: var(--ink); }
+.chip[aria-pressed="true"] { border-color: var(--ink); color: var(--ink); font-weight: 600; }
+.chip:disabled { opacity: .45; cursor: not-allowed; }
+.swatch { width: 9px; height: 9px; flex: none; border-radius: 2px; }
 
-  .btn {
-    font: inherit; font-weight: 600; font-size: 14px; padding: 11px 18px;
-    border: 1px solid var(--ink); background: var(--ink); color: var(--plane);
-    cursor: pointer; width: 100%;
-  }
-  .btn:hover:not(:disabled) { opacity: .86; }
-  .btn:disabled { opacity: .32; cursor: not-allowed; }
-  .btn.ghost { background: transparent; color: var(--ink); }
-  .btn.sm { width: auto; padding: 7px 12px; font-size: 12.5px; font-weight: 500; background: transparent; color: var(--ink-2); border-color: var(--hairline); }
-  .btn.sm:hover:not(:disabled) { color: var(--ink); border-color: var(--rule); opacity: 1; }
-  :is(button,input,select,summary):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+.btn {
+font: inherit; font-weight: 600; font-size: 14px; padding: 11px 18px;
+border: 1px solid var(--ink); background: var(--ink); color: var(--plane);
+cursor: pointer; width: 100%;
+}
+.btn:hover:not(:disabled) { opacity: .86; }
+.btn:disabled { opacity: .32; cursor: not-allowed; }
+.btn.ghost { background: transparent; color: var(--ink); }
+.btn.sm { width: auto; padding: 7px 12px; font-size: 12.5px; font-weight: 500; background: transparent; color: var(--ink-2); border-color: var(--hairline); }
+.btn.sm:hover:not(:disabled) { color: var(--ink); border-color: var(--rule); opacity: 1; }
+:is(button,input,select,summary):focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
 
-  .row { display: flex; gap: 8px; flex-wrap: wrap; }
-  label.fld { display: flex; flex-direction: column; gap: 5px; flex: 1 1 110px; min-width: 0; }
-  label.fld > span { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
-  input, select {
-    font: inherit; font-size: 14px; padding: 8px 9px; background: var(--field);
-    border: 1px solid var(--hairline); color: var(--ink); min-width: 0; width: 100%; border-radius: 0;
-  }
-  input[type="number"] { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+label.fld { display: flex; flex-direction: column; gap: 5px; flex: 1 1 110px; min-width: 0; }
+label.fld > span { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; }
+input, select {
+font: inherit; font-size: 14px; padding: 8px 9px; background: var(--field);
+border: 1px solid var(--hairline); color: var(--ink); min-width: 0; width: 100%; border-radius: 0;
+}
+input[type="number"] { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
-  details.manage { margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 12px; }
-  details.manage summary {
-    font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
-    color: var(--muted); font-weight: 600; cursor: pointer; list-style: none;
-  }
-  details.manage summary::-webkit-details-marker { display: none; }
-  details.manage summary::before { content: "+ "; }
-  details.manage[open] summary::before { content: "– "; }
+details.manage { margin-top: 14px; border-top: 1px solid var(--hairline); padding-top: 12px; }
+details.manage summary {
+font-size: 11px; text-transform: uppercase; letter-spacing: .1em;
+color: var(--muted); font-weight: 600; cursor: pointer; list-style: none;
+}
+details.manage summary::-webkit-details-marker { display: none; }
+details.manage summary::before { content: "+ "; }
+details.manage[open] summary::before { content: "– "; }
 
-  .sessions { list-style: none; margin: 0; padding: 0; }
-  .sessions li { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--hairline); font-size: 13.5px; }
-  .sessions li:first-child { border-top: 0; }
-  .s-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .s-note { color: var(--muted); font-size: 12px; }
-  .s-min { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 13px; color: var(--ink-2); flex: none; }
-  .empty { color: var(--muted); font-size: 13px; padding: 6px 0 2px; }
-  .x { font: inherit; font-size: 15px; line-height: 1; color: var(--muted); background: none; border: 1px solid transparent; cursor: pointer; padding: 4px 7px; flex: none; }
-  .x:hover { color: var(--ink); border-color: var(--hairline); }
+.sessions { list-style: none; margin: 0; padding: 0; }
+.sessions li { display: flex; align-items: center; gap: 10px; padding: 9px 0; border-top: 1px solid var(--hairline); font-size: 13.5px; }
+.sessions li:first-child { border-top: 0; }
+.s-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.s-note { color: var(--muted); font-size: 12px; }
+.s-min { font-family: var(--mono); font-variant-numeric: tabular-nums; font-size: 13px; color: var(--ink-2); flex: none; }
+.empty { color: var(--muted); font-size: 13px; padding: 6px 0 2px; }
+.x { font: inherit; font-size: 15px; line-height: 1; color: var(--muted); background: none; border: 1px solid transparent; cursor: pointer; padding: 4px 7px; flex: none; }
+.x:hover { color: var(--ink); border-color: var(--hairline); }
 
-  .seg { display: inline-flex; border: 1px solid var(--hairline); }
-  .seg button { font: inherit; font-size: 12px; font-weight: 500; padding: 6px 12px; background: transparent; color: var(--muted); border: 0; cursor: pointer; }
-  .seg button + button { border-left: 1px solid var(--hairline); }
-  .seg button[aria-pressed="true"] { background: var(--ink); color: var(--plane); font-weight: 600; }
+.seg { display: inline-flex; border: 1px solid var(--hairline); }
+.seg button { font: inherit; font-size: 12px; font-weight: 500; padding: 6px 12px; background: transparent; color: var(--muted); border: 0; cursor: pointer; }
+.seg button + button { border-left: 1px solid var(--hairline); }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--plane); font-weight: 600; }
 
-  .nav { display: inline-flex; gap: 4px; align-items: center; }
-  .nav button { font: inherit; font-size: 15px; line-height: 1; padding: 5px 9px; background: transparent; border: 1px solid var(--hairline); color: var(--ink-2); cursor: pointer; }
-  .nav button:hover:not(:disabled) { color: var(--ink); border-color: var(--rule); }
-  .nav button:disabled { opacity: .3; cursor: not-allowed; }
-  .range-label { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; margin-right: auto; }
+.nav { display: inline-flex; gap: 4px; align-items: center; }
+.nav button { font: inherit; font-size: 15px; line-height: 1; padding: 5px 9px; background: transparent; border: 1px solid var(--hairline); color: var(--ink-2); cursor: pointer; }
+.nav button:hover:not(:disabled) { color: var(--ink); border-color: var(--rule); }
+.nav button:disabled { opacity: .3; cursor: not-allowed; }
+.range-label { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; margin-right: auto; }
 
-  /* summary strip under the chart */
-  .statstrip {
-    display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
-    margin-top: 18px; border-top: 1px solid var(--rule); background: var(--hairline);
-  }
-  @media (max-width: 560px) { .statstrip { grid-template-columns: repeat(2, 1fr); } }
-  .statstrip .cell { background: var(--surface); padding: 12px 2px 2px; }
-  .statstrip .k {
-    display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .1em;
-    color: var(--muted); font-weight: 600; margin-bottom: 3px;
-  }
-  .statstrip .v {
-    display: block; font-family: var(--mono); font-size: 18px; font-weight: 500;
-    font-variant-numeric: tabular-nums; letter-spacing: -.02em;
-  }
-  .statstrip .sub { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
-  .statstrip .pair { display: flex; align-items: baseline; gap: 6px; }
-  .statstrip .pair .dot2 { width: 7px; height: 7px; border-radius: 50%; flex: none; }
+/* summary strip under the chart */
+.statstrip {
+display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px;
+margin-top: 18px; border-top: 1px solid var(--rule); background: var(--hairline);
+}
+@media (max-width: 560px) { .statstrip { grid-template-columns: repeat(2, 1fr); } }
+.statstrip .cell { background: var(--surface); padding: 12px 2px 2px; }
+.statstrip .k {
+display: block; font-size: 10px; text-transform: uppercase; letter-spacing: .1em;
+color: var(--muted); font-weight: 600; margin-bottom: 3px;
+}
+.statstrip .v {
+display: block; font-family: var(--mono); font-size: 18px; font-weight: 500;
+font-variant-numeric: tabular-nums; letter-spacing: -.02em;
+}
+.statstrip .sub { display: block; font-size: 11px; color: var(--muted); margin-top: 2px; }
+.statstrip .pair { display: flex; align-items: baseline; gap: 6px; }
+.statstrip .pair .dot2 { width: 7px; height: 7px; border-radius: 50%; flex: none; }
 
-  .chart-wrap { position: relative; width: 100%; }
-  svg.chart { display: block; width: 100%; height: auto; overflow: visible; }
-  .tip {
-    position: absolute; pointer-events: none; z-index: 5; background: var(--ink); color: var(--plane);
-    padding: 7px 9px; font-size: 12px; line-height: 1.35; transform: translate(-50%,-100%);
-    white-space: nowrap; opacity: 0; transition: opacity .1s;
-  }
-  .tip.on { opacity: 1; }
-  .tip b { font-family: var(--mono); font-weight: 500; font-variant-numeric: tabular-nums; }
-  .legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; }
-  .legend .item { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--ink-2); }
+.chart-wrap { position: relative; width: 100%; }
+svg.chart { display: block; width: 100%; height: auto; overflow: visible; }
+.tip {
+position: absolute; pointer-events: none; z-index: 5; background: var(--ink); color: var(--plane);
+padding: 7px 9px; font-size: 12px; line-height: 1.35; transform: translate(-50%,-100%);
+white-space: nowrap; opacity: 0; transition: opacity .1s;
+}
+.tip.on { opacity: 1; }
+.tip b { font-family: var(--mono); font-weight: 500; font-variant-numeric: tabular-nums; }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 14px; }
+.legend .item { display: inline-flex; align-items: center; gap: 7px; font-size: 12px; color: var(--ink-2); }
 
-  table.totals { width: 100%; border-collapse: collapse; font-size: 13.5px; }
-  table.totals th { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; text-align: right; padding: 0 0 8px; border-bottom: 1px solid var(--rule); }
-  table.totals th:first-child { text-align: left; }
-  table.totals td { padding: 9px 0; border-bottom: 1px solid var(--hairline); text-align: right; font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
-  table.totals td:first-child { text-align: left; font-family: var(--ui); font-size: 13.5px; color: var(--ink); }
-  table.totals tr:last-child td { border-bottom: 0; }
-  .cellname { display: flex; align-items: center; gap: 8px; }
-  .meter { height: 3px; background: var(--grid); margin-top: 5px; }
-  .meter i { display: block; height: 100%; }
+table.totals { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+table.totals th { font-size: 10px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; text-align: right; padding: 0 0 8px; border-bottom: 1px solid var(--rule); }
+table.totals th:first-child { text-align: left; }
+table.totals td { padding: 9px 0; border-bottom: 1px solid var(--hairline); text-align: right; font-family: var(--mono); font-size: 13px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+table.totals td:first-child { text-align: left; font-family: var(--ui); font-size: 13.5px; color: var(--ink); }
+table.totals tr:last-child td { border-bottom: 0; }
+.cellname { display: flex; align-items: center; gap: 8px; }
+.meter { height: 3px; background: var(--grid); margin-top: 5px; }
+.meter i { display: block; height: 100%; }
 
-  .versus { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; }
-  @media (max-width: 620px) { .versus { grid-template-columns: 1fr; } }
-  .vs-side.right { text-align: right; }
-  .vs-name { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--ink); }
-  .vs-side.right .vs-name { flex-direction: row-reverse; }
-  .vs-hours { font-family: var(--mono); font-size: clamp(26px,6vw,34px); font-weight: 500; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; margin-top: 4px; }
-  .vs-sub { font-size: 12px; color: var(--muted); }
-  .vs-mid { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); font-weight: 600; text-align: center; }
-  .vs-bar { display: flex; height: 6px; margin: 16px 0 6px; background: var(--grid); }
-  .vs-bar i { display: block; height: 100%; }
-  .vs-bar i + i { margin-left: 2px; }
+.cmp-list { display: flex; flex-direction: column; gap: 14px; }
+.cmp-row .cmp-head { display: flex; align-items: baseline; gap: 8px; margin-bottom: 6px; }
+.cmp-row .cmp-name { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--ink); margin-right: auto; }
+.cmp-row .cmp-val { font-family: var(--mono); font-size: 15px; font-weight: 500; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+.cmp-row.lead .cmp-val { color: var(--ink); font-weight: 700; }
+.cmp-bar { height: 6px; background: var(--grid); }
+.cmp-bar i { display: block; height: 100%; }
+.vs-sub { font-size: 12px; color: var(--muted); margin-top: 16px; }
 
-  .status { margin-top: 18px; font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-  .status .warn { color: var(--crit); font-weight: 600; }
-  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.status { margin-top: 18px; font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.status .warn { color: var(--crit); font-weight: 600; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
 <body>
 <div class="shell">
-  <header class="top">
-    <div class="toprow">
-      <h1 class="wordmark">Study Log <span>· Aidan &amp; Wyel</span></h1>
-      <div class="topstat"><span class="k">This week</span><span class="v" id="stat-week">–</span></div>
-      <div class="topstat"><span class="k">Days studied</span><span class="v" id="stat-days">–</span></div>
-    </div>
-    <div class="tabs" id="tabs" role="tablist" aria-label="Whose log"></div>
-  </header>
+<header class="top">
+<div class="toprow">
+<h1 class="wordmark">Study Log <span>· Aidan &amp; Wyel</span></h1>
+<div class="topstat"><span class="k">This week</span><span class="v" id="stat-week">–</span></div>
+<div class="topstat"><span class="k">Days studied</span><span class="v" id="stat-days">–</span></div>
+</div>
+<div class="tabs" id="tabs" role="tablist" aria-label="Whose log"></div>
+</header>
 
-  <main class="grid" id="layout">
-    <div class="col" id="col-left">
-      <section class="card">
-        <div class="card-head"><h2>Timer</h2><span class="s-min" id="timer-who"></span></div>
-        <div class="chips" id="timer-chips" role="group" aria-label="Choose subject"></div>
-        <div class="readout idle" id="readout">00:00:00</div>
-        <div class="running-line" id="running-line"></div>
-        <button class="btn" id="startstop" disabled>Start</button>
-      </section>
+<main class="grid" id="layout">
+<div class="col" id="col-left">
+<section class="card">
+<div class="card-head"><h2>Timer</h2><span class="s-min" id="timer-who"></span></div>
+<div class="chips" id="timer-chips" role="group" aria-label="Choose subject"></div>
+<div class="readout idle" id="readout">00:00:00</div>
+<div class="running-line" id="running-line"></div>
+<button class="btn" id="startstop" disabled>Start</button>
+</section>
 
-      <section class="card">
-        <h2>Add by hand</h2>
-        <div class="row">
-          <label class="fld" style="flex:2 1 160px">
-            <span>Subject</span><select id="add-subject"></select>
-          </label>
-          <label class="fld"><span>Minutes</span>
-            <input type="number" id="add-minutes" min="1" max="1440" step="5" placeholder="45">
-          </label>
-        </div>
-        <div class="row" style="margin-top:8px">
-          <label class="fld"><span>Date</span><input type="date" id="add-date"></label>
-          <label class="fld" style="flex:2 1 150px"><span>Note (optional)</span>
-            <input type="text" id="add-note" placeholder="Problem set 3" maxlength="90">
-          </label>
-        </div>
-        <button class="btn ghost" id="add-btn" style="margin-top:12px">Add session</button>
+<section class="card">
+<h2>Add by hand</h2>
+<div class="row">
+<label class="fld" style="flex:2 1 160px">
+<span>Subject</span><select id="add-subject"></select>
+</label>
+<label class="fld"><span>Minutes</span>
+<input type="number" id="add-minutes" min="1" max="1440" step="5" placeholder="45">
+</label>
+</div>
+<div class="row" style="margin-top:8px">
+<label class="fld"><span>Date</span><input type="date" id="add-date"></label>
+<label class="fld" style="flex:2 1 150px"><span>Note (optional)</span>
+<input type="text" id="add-note" placeholder="Problem set 3" maxlength="90">
+</label>
+</div>
+<button class="btn ghost" id="add-btn" style="margin-top:12px">Add session</button>
 
-        <details class="manage">
-          <summary>Add a subject just for this session</summary>
-          <div class="row" style="margin-top:10px">
-            <input type="text" id="new-subject" placeholder="Subject name" maxlength="60">
-            <button class="btn sm" id="new-subject-btn">Use it</button>
-          </div>
-          <p class="empty" style="margin:8px 0 0">
-            Subjects live in <code>config.js</code> in the repo. Anything typed here is stored on the
-            session itself, so it shows up in the charts without needing an edit.
-          </p>
-        </details>
-      </section>
+<details class="manage">
+<summary>Add a subject just for this session</summary>
+<div class="row" style="margin-top:10px">
+<input type="text" id="new-subject" placeholder="Subject name" maxlength="60">
+<button class="btn sm" id="new-subject-btn">Use it</button>
+</div>
+<p class="empty" style="margin:8px 0 0">
+Subjects live in <code>config.js</code> in the repo. Anything typed here is stored on the
+session itself, so it shows up in the charts without needing an edit.
+</p>
+</details>
+</section>
 
-      <section class="card">
-        <div class="card-head"><h2>Today</h2><span class="s-min" id="today-total"></span></div>
-        <ul class="sessions" id="today-list"></ul>
-      </section>
-    </div>
+<section class="card">
+<div class="card-head"><h2>Today</h2><span class="s-min" id="today-total"></span></div>
+<ul class="sessions" id="today-list"></ul>
+</section>
+</div>
 
-    <div class="col" id="col-right">
-      <section class="card" id="compare-card" hidden>
-        <div class="card-head"><h2>Head to head</h2><span class="s-min" id="cmp-period"></span></div>
-        <div class="versus" id="versus"></div>
-        <div class="vs-bar" id="vs-bar"></div>
-        <div class="vs-sub" id="vs-caption"></div>
-      </section>
+<div class="col" id="col-right">
+<section class="card" id="compare-card" hidden>
+<div class="card-head"><h2>Standings</h2><span class="s-min" id="cmp-period"></span></div>
+<div class="cmp-list" id="versus"></div>
+<div class="vs-sub" id="vs-caption"></div>
+</section>
 
-      <section class="card" id="wyel-note-card" hidden>
-        <div class="card-head"><h2>Wyel</h2><span class="s-min" id="wyel-synced"></span></div>
-        <p class="empty" id="wyel-note" style="padding:0"></p>
-      </section>
+<section class="card" id="wyel-note-card" hidden>
+<div class="card-head"><h2>Wyel</h2><span class="s-min" id="wyel-synced"></span></div>
+<p class="empty" id="wyel-note" style="padding:0"></p>
+</section>
 
-      <section class="card">
-        <div class="card-head">
-          <h2 id="chart-h">Time by subject</h2>
-          <span class="range-label" id="range-label">–</span>
-          <div class="seg" id="periods" role="group" aria-label="Time period"></div>
-        </div>
-        <div class="chart-wrap" id="chart-wrap">
-          <svg class="chart" id="chart" role="img" aria-labelledby="chart-desc"></svg>
-          <p id="chart-desc" class="vh"></p>
-          <div class="tip" id="tip"></div>
-        </div>
-        <div class="legend" id="legend"></div>
-        <div class="statstrip" id="statstrip"></div>
-      </section>
+<section class="card">
+<div class="card-head">
+<h2 id="chart-h">Time by subject</h2>
+<span class="range-label" id="range-label">–</span>
+<div class="seg" id="periods" role="group" aria-label="Time period"></div>
+</div>
+<div class="chart-wrap" id="chart-wrap">
+<svg class="chart" id="chart" role="img" aria-labelledby="chart-desc"></svg>
+<p id="chart-desc" class="vh"></p>
+<div class="tip" id="tip"></div>
+</div>
+<div class="legend" id="legend"></div>
+<div class="statstrip" id="statstrip"></div>
+</section>
 
-      <section class="card" id="totals-card">
-        <div class="card-head"><h2 id="totals-h">Totals</h2></div>
-        <table class="totals">
-          <thead><tr><th id="th-name">Subject</th><th>This period</th><th>All time</th></tr></thead>
-          <tbody id="totals-body"></tbody>
-        </table>
-      </section>
-    </div>
-  </main>
+<section class="card" id="totals-card">
+<div class="card-head"><h2 id="totals-h">Totals</h2></div>
+<table class="totals">
+<thead><tr><th id="th-name">Subject</th><th>This period</th><th>All time</th></tr></thead>
+<tbody id="totals-body"></tbody>
+</table>
+</section>
+</div>
+</main>
 
-  <div class="status" id="status">Connecting…</div>
+<div class="status" id="status">Connecting…</div>
 </div>
 
 <script src="config.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function () {
-  "use strict";
+"use strict";
 
-  var CFG = window.STUDY_LOG_CONFIG || {};
-  var PEOPLE = [{ id: "aidan", name: "Aidan" }, { id: "wyel", name: "Wyel" }];
-  var TIMER_KEY = "study-log:running";
-  var PERSON_KEY = "study-log:person";
+var CFG = window.STUDY_LOG_CONFIG || {};
+var DIRECT_PEOPLE = (Array.isArray(CFG.people) && CFG.people.length) ? CFG.people : [{ id: "aidan", name: "Aidan" }];
+var PEOPLE = DIRECT_PEOPLE.concat([{ id: "wyel", name: "Wyel" }]);
+var PERSON_COLORS = ["var(--s1)", "var(--s3)", "var(--s4)", "var(--s5)", "var(--s7)", "var(--s8)"];
+var TIMER_KEY = "study-log:running";
+var PERSON_KEY = "study-log:person";
 
-  var state = {
-    sb: null,
-    sessions: [],          // Aidan's, from Supabase
-    wyel: null,            // parsed data/wyel.json
-    running: null,
-    selected: null,
-    adhocSubject: "",
-    person: "aidan",
-    period: "W",
-    loaded: false,
-    error: ""
-  };
+var state = {
+sb: null,
+sessions: [], // every direct person's rows, from Supabase
+wyel: null, // parsed data/wyel.json
+running: null,
+selected: null,
+adhocSubject: "",
+person: "aidan",
+period: "W",
+loaded: false,
+error: ""
+};
 
-  // Markets-app style spans. `unit` is the bucket size the chart draws.
-  var PERIODS = [
-    { id: "D",  label: "D",  unit: "day",   count: 1,  title: "Today" },
-    { id: "W",  label: "W",  unit: "day",   count: 7,  title: "Last 7 days" },
-    { id: "M",  label: "M",  unit: "day",   count: 30, title: "Last 30 days" },
-    { id: "3M", label: "3M", unit: "week",  count: 13, title: "Last 13 weeks" },
-    { id: "6M", label: "6M", unit: "week",  count: 26, title: "Last 26 weeks" },
-    { id: "Y",  label: "Y",  unit: "month", count: 12, title: "Last 12 months" },
-    { id: "ALL", label: "All", unit: "auto", count: 0, title: "All time" }
-  ];
-  function currentPeriod() {
-    for (var i = 0; i < PERIODS.length; i++) if (PERIODS[i].id === state.period) return PERIODS[i];
-    return PERIODS[1];
-  }
-  // Earliest day either person has any record for.
-  function earliestISO() {
-    var best = null;
-    state.sessions.forEach(function (s) { if (!best || s.day < best) best = s.day; });
-    if (state.wyel && state.wyel.daily) {
-      Object.keys(state.wyel.daily).forEach(function (d) {
-        if (state.wyel.daily[d] > 0 && (!best || d < best)) best = d;
-      });
-    }
-    return best;
-  }
+// Markets-app style spans. `unit` is the bucket size the chart draws.
+var PERIODS = [
+{ id: "D", label: "D", unit: "day", count: 1, title: "Today" },
+{ id: "W", label: "W", unit: "day", count: 7, title: "Last 7 days" },
+{ id: "M", label: "M", unit: "day", count: 30, title: "Last 30 days" },
+{ id: "3M", label: "3M", unit: "week", count: 13, title: "Last 13 weeks" },
+{ id: "6M", label: "6M", unit: "week", count: 26, title: "Last 26 weeks" },
+{ id: "Y", label: "Y", unit: "month", count: 12, title: "Last 12 months" },
+{ id: "ALL", label: "All", unit: "auto", count: 0, title: "All time" }
+];
+function currentPeriod() {
+for (var i = 0; i < PERIODS.length; i++) if (PERIODS[i].id === state.period) return PERIODS[i];
+return PERIODS[1];
+}
+// Earliest day either person has any record for.
+function earliestISO() {
+var best = null;
+state.sessions.forEach(function (s) { if (!best || s.day < best) best = s.day; });
+if (state.wyel && state.wyel.daily) {
+Object.keys(state.wyel.daily).forEach(function (d) {
+if (state.wyel.daily[d] > 0 && (!best || d < best)) best = d;
+});
+}
+return best;
+}
 
-  // "All" has no fixed span, so pick a bucket size that keeps the bar count sane:
-  // weeks while the history is short, months once it passes about half a year.
-  function allTimeShape() {
-    var first = earliestISO();
-    var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    if (!first) return { unit: "month", count: 12 };
-    var f = fromISO(first);
-    var days = Math.round((today - f) / 86400000) + 1;
-    if (days <= 26 * 7) return { unit: "week", count: Math.max(1, Math.ceil(days / 7)) };
-    var months = (today.getFullYear() - f.getFullYear()) * 12 + (today.getMonth() - f.getMonth()) + 1;
-    return { unit: "month", count: Math.max(1, months) };
-  }
+// "All" has no fixed span, so pick a bucket size that keeps the bar count sane:
+// weeks while the history is short, months once it passes about half a year.
+function allTimeShape() {
+var first = earliestISO();
+var now = new Date();
+var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+if (!first) return { unit: "month", count: 12 };
+var f = fromISO(first);
+var days = Math.round((today - f) / 86400000) + 1;
+if (days <= 26 * 7) return { unit: "week", count: Math.max(1, Math.ceil(days / 7)) };
+var months = (today.getFullYear() - f.getFullYear()) * 12 + (today.getMonth() - f.getMonth()) + 1;
+return { unit: "month", count: Math.max(1, months) };
+}
 
-  // The bucket size actually drawn: "D" is hourly for Aidan, daily for the rest,
-  // and "All" resolves to whatever allTimeShape picked.
-  function resolvedUnit() {
-    var p = currentPeriod();
-    if (p.id === "D") return "hour";
-    if (p.id === "ALL") return allTimeShape().unit;
-    return p.unit;
-  }
-  function resolvedCount() {
-    var p = currentPeriod();
-    return p.id === "ALL" ? allTimeShape().count : p.count;
-  }
+// The bucket size actually drawn: "D" is hourly for direct people, daily for the rest,
+// and "All" resolves to whatever allTimeShape picked.
+function resolvedUnit() {
+var p = currentPeriod();
+if (p.id === "D") return "hour";
+if (p.id === "ALL") return allTimeShape().unit;
+return p.unit;
+}
+function resolvedCount() {
+var p = currentPeriod();
+return p.id === "ALL" ? allTimeShape().count : p.count;
+}
 
-  function $(id) { return document.getElementById(id); }
-  function pad(n) { return n < 10 ? "0" + n : String(n); }
-  function toISO(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
-  function fromISO(s) {
-    var p = String(s).split("-");
-    return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
-  }
-  function startOfWeek(d) {
-    var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    x.setDate(x.getDate() - ((x.getDay() + 6) % 7));
-    return x;
-  }
-  function addDays(d, n) {
-    var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
-    x.setDate(x.getDate() + n);
-    return x;
-  }
-  function fmtHM(m) {
-    m = Math.max(0, Math.round(m));
-    var h = Math.floor(m / 60), r = m % 60;
-    if (!h) return r + "m";
-    if (!r) return h + "h";
-    return h + "h " + pad(r) + "m";
-  }
-  function fmtHours(m) { return (m / 60).toFixed(1); }
-  function fmtClock(ms) {
-    var t = Math.max(0, Math.floor(ms / 1000));
-    return pad(Math.floor(t / 3600)) + ":" + pad(Math.floor((t % 3600) / 60)) + ":" + pad(t % 60);
-  }
-  function shortDate(d) { return d.getDate() + "." + (d.getMonth() + 1) + "."; }
-  function personColor(pid) { return pid === "aidan" ? "var(--s1)" : "var(--s2)"; }
-  function personName(pid) { return pid === "aidan" ? "Aidan" : "Wyel"; }
+function $(id) { return document.getElementById(id); }
+function pad(n) { return n < 10 ? "0" + n : String(n); }
+function toISO(d) { return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function fromISO(s) {
+var p = String(s).split("-");
+return new Date(Number(p[0]), Number(p[1]) - 1, Number(p[2]));
+}
+function startOfWeek(d) {
+var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+x.setDate(x.getDate() - ((x.getDay() + 6) % 7));
+return x;
+}
+function addDays(d, n) {
+var x = new Date(d.getFullYear(), d.getMonth(), d.getDate());
+x.setDate(x.getDate() + n);
+return x;
+}
+function fmtHM(m) {
+m = Math.max(0, Math.round(m));
+var h = Math.floor(m / 60), r = m % 60;
+if (!h) return r + "m";
+if (!r) return h + "h";
+return h + "h " + pad(r) + "m";
+}
+function fmtHours(m) { return (m / 60).toFixed(1); }
+function fmtClock(ms) {
+var t = Math.max(0, Math.floor(ms / 1000));
+return pad(Math.floor(t / 3600)) + ":" + pad(Math.floor((t % 3600) / 60)) + ":" + pad(t % 60);
+}
+function shortDate(d) { return d.getDate() + "." + (d.getMonth() + 1) + "."; }
+function isDirectPerson(pid) { return DIRECT_PEOPLE.some(function (p) { return p.id === pid; }); }
+function personColor(pid) {
+if (pid === "wyel") return "var(--s2)";
+var idx = DIRECT_PEOPLE.map(function (p) { return p.id; }).indexOf(pid);
+return PERSON_COLORS[idx >= 0 ? idx % PERSON_COLORS.length : 0];
+}
+function personName(pid) {
+for (var i = 0; i < PEOPLE.length; i++) if (PEOPLE[i].id === pid) return PEOPLE[i].name;
+return pid;
+}
 
-  function subjectList() {
-    var base = Array.isArray(CFG.subjects) ? CFG.subjects.slice() : [];
-    state.sessions.forEach(function (s) {
-      if (s.subject && base.indexOf(s.subject) === -1) base.push(s.subject);
-    });
-    if (state.adhocSubject && base.indexOf(state.adhocSubject) === -1) base.push(state.adhocSubject);
-    return base;
-  }
-  function subjectColor(name) {
-    var i = subjectList().indexOf(name);
-    return i >= 0 && i < 8 ? "var(--s" + (i + 1) + ")" : "var(--s-other)";
-  }
+function subjectList() {
+var base = Array.isArray(CFG.subjects) ? CFG.subjects.slice() : [];
+state.sessions.forEach(function (s) {
+if (s.subject && base.indexOf(s.subject) === -1) base.push(s.subject);
+});
+if (state.adhocSubject && base.indexOf(state.adhocSubject) === -1) base.push(state.adhocSubject);
+return base;
+}
+function subjectColor(name) {
+var i = subjectList().indexOf(name);
+return i >= 0 && i < 8 ? "var(--s" + (i + 1) + ")" : "var(--s-other)";
+}
 
-  /* ---------- data access ---------- */
-  function aidanDaily(a, b) {
-    var out = 0;
-    state.sessions.forEach(function (s) { if (s.day >= a && s.day <= b) out += s.minutes; });
-    return out;
-  }
-  function wyelDaily(a, b) {
-    if (!state.wyel || !state.wyel.daily) return 0;
-    var out = 0;
-    Object.keys(state.wyel.daily).forEach(function (d) {
-      if (d >= a && d <= b) out += state.wyel.daily[d];
-    });
-    return out;
-  }
-  function minutesFor(pid, a, b) {
-    return pid === "aidan" ? aidanDaily(a, b) : wyelDaily(a, b);
-  }
-  function daysStudied(pid, a, b) {
-    var set = {};
-    if (pid === "aidan") {
-      state.sessions.forEach(function (s) { if (s.day >= a && s.day <= b) set[s.day] = 1; });
-    } else if (state.wyel && state.wyel.daily) {
-      Object.keys(state.wyel.daily).forEach(function (d) {
-        if (d >= a && d <= b && state.wyel.daily[d] > 0) set[d] = 1;
-      });
-    }
-    return Object.keys(set).length;
-  }
+/* ---------- data access ---------- */
+function directDaily(pid, a, b) {
+var out = 0;
+state.sessions.forEach(function (s) { if (s.person === pid && s.day >= a && s.day <= b) out += s.minutes; });
+return out;
+}
+function wyelDaily(a, b) {
+if (!state.wyel || !state.wyel.daily) return 0;
+var out = 0;
+Object.keys(state.wyel.daily).forEach(function (d) {
+if (d >= a && d <= b) out += state.wyel.daily[d];
+});
+return out;
+}
+function minutesFor(pid, a, b) {
+return pid === "wyel" ? wyelDaily(a, b) : directDaily(pid, a, b);
+}
+function daysStudied(pid, a, b) {
+var set = {};
+if (pid === "wyel") {
+if (state.wyel && state.wyel.daily) {
+Object.keys(state.wyel.daily).forEach(function (d) {
+if (d >= a && d <= b && state.wyel.daily[d] > 0) set[d] = 1;
+});
+}
+} else {
+state.sessions.forEach(function (s) { if (s.person === pid && s.day >= a && s.day <= b) set[s.day] = 1; });
+}
+return Object.keys(set).length;
+}
 
-  /* ---------- writes (Aidan only) ---------- */
-  function addSession(subject, minutes, day, note, startedAtISO) {
-    if (!state.sb) { state.error = "Not connected — that session was not saved."; renderStatus(); return; }
-    var row = { person: "aidan", day: day, subject: subject, minutes: Math.max(1, Math.round(minutes)), note: note || "" };
-    if (startedAtISO) row.started_at = startedAtISO;
-    var optimistic = Object.assign({ id: "tmp-" + Date.now() }, row);
-    state.sessions.push(optimistic);
-    renderAll();
-    state.sb.from("sessions").insert(row).select().then(function (res) {
-      if (res.error) {
-        state.sessions = state.sessions.filter(function (s) { return s.id !== optimistic.id; });
-        state.error = "Couldn't save: " + res.error.message;
-      } else if (res.data && res.data[0]) {
-        optimistic.id = res.data[0].id;
-      }
-      renderAll();
-    });
-  }
+/* ---------- writes (direct people only) ---------- */
+function addSession(subject, minutes, day, note, startedAtISO, person) {
+var pid = person || state.person;
+if (!state.sb) { state.error = "Not connected — that session was not saved."; renderStatus(); return; }
+var row = { person: pid, day: day, subject: subject, minutes: Math.max(1, Math.round(minutes)), note: note || "" };
+if (startedAtISO) row.started_at = startedAtISO;
+var optimistic = Object.assign({ id: "tmp-" + Date.now() }, row);
+state.sessions.push(optimistic);
+renderAll();
+state.sb.from("sessions").insert(row).select().then(function (res) {
+if (res.error) {
+state.sessions = state.sessions.filter(function (s) { return s.id !== optimistic.id; });
+state.error = "Couldn't save: " + res.error.message;
+} else if (res.data && res.data[0]) {
+optimistic.id = res.data[0].id;
+}
+renderAll();
+});
+}
 
-  function deleteSession(id) {
-    if (!state.sb) return;
-    var keep = state.sessions.filter(function (s) { return s.id !== id; });
-    state.sessions = keep;
-    renderAll();
-    state.sb.from("sessions").delete().eq("id", id).then(function (res) {
-      if (res.error) { state.error = "Couldn't delete: " + res.error.message; renderStatus(); }
-    });
-  }
+function deleteSession(id) {
+if (!state.sb) return;
+var keep = state.sessions.filter(function (s) { return s.id !== id; });
+state.sessions = keep;
+renderAll();
+state.sb.from("sessions").delete().eq("id", id).then(function (res) {
+if (res.error) { state.error = "Couldn't delete: " + res.error.message; renderStatus(); }
+});
+}
 
-  /* ---------- local timer ---------- */
-  function loadRunning() {
-    try {
-      var v = JSON.parse(localStorage.getItem(TIMER_KEY) || "null");
-      if (v && v.subject && v.startedAt) return v;
-    } catch (e) {}
-    return null;
-  }
-  function saveRunning(v) {
-    try { v ? localStorage.setItem(TIMER_KEY, JSON.stringify(v)) : localStorage.removeItem(TIMER_KEY); } catch (e) {}
-  }
-  function loadPerson() { try { return localStorage.getItem(PERSON_KEY) || "aidan"; } catch (e) { return "aidan"; } }
-  function savePerson(p) { try { localStorage.setItem(PERSON_KEY, p); } catch (e) {} }
+/* ---------- local timer ---------- */
+function loadRunning() {
+try {
+var v = JSON.parse(localStorage.getItem(TIMER_KEY) || "null");
+if (v && v.subject && v.startedAt) return v;
+} catch (e) {}
+return null;
+}
+function saveRunning(v) {
+try { v ? localStorage.setItem(TIMER_KEY, JSON.stringify(v)) : localStorage.removeItem(TIMER_KEY); } catch (e) {}
+}
+function loadPerson() { try { return localStorage.getItem(PERSON_KEY) || "aidan"; } catch (e) { return "aidan"; } }
+function savePerson(p) { try { localStorage.setItem(PERSON_KEY, p); } catch (e) {} }
 
-  /* ---------- buckets ---------- */
-  var DAY_INITIALS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
-  var MONTH_INITIALS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+/* ---------- buckets ---------- */
+var DAY_INITIALS = ["Mo", "Tu", "We", "Th", "Fr", "Sa", "Su"];
+var MONTH_INITIALS = ["J", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
 
-  // Rolling windows that end today, like the Markets app — no paging back.
-  function buildBuckets() {
-    var p = currentPeriod();
-    var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var buckets = [];
+// Rolling windows that end today, like the Markets app — no paging back.
+function buildBuckets() {
+var p = currentPeriod();
+var now = new Date();
+var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+var buckets = [];
 
-    // "D" becomes a real hour-by-hour view for Aidan, whose timer records a
-    // start time. Wyel's sheet gives daily totals only, so his D stays one column.
-    var unit = resolvedUnit();
-    var count = resolvedCount();
+// "D" becomes a real hour-by-hour view for direct people, whose timer records a
+// start time. Wyel's sheet gives daily totals only, so his D stays one column.
+var unit = resolvedUnit();
+var count = resolvedCount();
 
-    if (unit === "hour") {
-      var iso = toISO(today);
-      for (var h = 0; h < 24; h++) {
-        buckets.push({
-          hour: h,
-          label: h % 3 === 0 ? pad(h) : "",
-          sub: "",
-          startISO: iso, endISO: iso,
-          tipLabel: pad(h) + ":00–" + pad((h + 1) % 24) + ":00"
-        });
-      }
-    } else if (unit === "day") {
-      var start = addDays(today, -(count - 1));
-      for (var i = 0; i < count; i++) {
-        var d = addDays(start, i);
-        var lbl;
-        if (count === 1) lbl = shortDate(d);
-        else if (count <= 7) lbl = DAY_INITIALS[(d.getDay() + 6) % 7];
-        else lbl = (i === count - 1 || i % 5 === 0) ? String(d.getDate()) : "";
-        buckets.push({
-          label: lbl,
-          sub: count <= 7 && count > 1 ? String(d.getDate()) : "",
-          startISO: toISO(d), endISO: toISO(d),
-          tipLabel: d.getDate() + "." + (d.getMonth() + 1) + "."
-        });
-      }
-    } else if (unit === "week") {
-      var thisMonday = startOfWeek(today);
-      for (var w = 0; w < count; w++) {
-        var s = addDays(thisMonday, -7 * (count - 1 - w));
-        var e = addDays(s, 6);
-        buckets.push({
-          label: (w === count - 1 || w % 4 === 0) ? s.getDate() + "." + (s.getMonth() + 1) : "",
-          sub: "",
-          startISO: toISO(s), endISO: toISO(e),
-          tipLabel: "week of " + s.getDate() + "." + (s.getMonth() + 1) + "."
-        });
-      }
-    } else {
-      for (var m = 0; m < count; m++) {
-        var first = new Date(today.getFullYear(), today.getMonth() - (count - 1 - m), 1);
-        var last = new Date(first.getFullYear(), first.getMonth() + 1, 0);
-        buckets.push({
-          label: (count <= 18 || m === count - 1 || m % 3 === 0) ? MONTH_INITIALS[first.getMonth()] : "",
-          sub: first.getMonth() === 0 ? String(first.getFullYear()).slice(2) : "",
-          startISO: toISO(first), endISO: toISO(last),
-          tipLabel: first.toLocaleDateString([], { month: "long", year: "numeric" })
-        });
-      }
-    }
+if (unit === "hour") {
+var iso = toISO(today);
+for (var h = 0; h < 24; h++) {
+buckets.push({
+hour: h,
+label: h % 3 === 0 ? pad(h) : "",
+sub: "",
+startISO: iso, endISO: iso,
+tipLabel: pad(h) + ":00–" + pad((h + 1) % 24) + ":00"
+});
+}
+} else if (unit === "day") {
+var start = addDays(today, -(count - 1));
+for (var i = 0; i < count; i++) {
+var d = addDays(start, i);
+var lbl;
+if (count === 1) lbl = shortDate(d);
+else if (count <= 7) lbl = DAY_INITIALS[(d.getDay() + 6) % 7];
+else lbl = (i === count - 1 || i % 5 === 0) ? String(d.getDate()) : "";
+buckets.push({
+label: lbl,
+sub: count <= 7 && count > 1 ? String(d.getDate()) : "",
+startISO: toISO(d), endISO: toISO(d),
+tipLabel: d.getDate() + "." + (d.getMonth() + 1) + "."
+});
+}
+} else if (unit === "week") {
+var thisMonday = startOfWeek(today);
+for (var w = 0; w < count; w++) {
+var s = addDays(thisMonday, -7 * (count - 1 - w));
+var e = addDays(s, 6);
+buckets.push({
+label: (w === count - 1 || w % 4 === 0) ? s.getDate() + "." + (s.getMonth() + 1) : "",
+sub: "",
+startISO: toISO(s), endISO: toISO(e),
+tipLabel: "week of " + s.getDate() + "." + (s.getMonth() + 1) + "."
+});
+}
+} else {
+for (var m = 0; m < count; m++) {
+var first = new Date(today.getFullYear(), today.getMonth() - (count - 1 - m), 1);
+var last = new Date(first.getFullYear(), first.getMonth() + 1, 0);
+buckets.push({
+label: (count <= 18 || m === count - 1 || m % 3 === 0) ? MONTH_INITIALS[first.getMonth()] : "",
+sub: first.getMonth() === 0 ? String(first.getFullYear()).slice(2) : "",
+startISO: toISO(first), endISO: toISO(last),
+tipLabel: first.toLocaleDateString([], { month: "long", year: "numeric" })
+});
+}
+}
 
-    var a = buckets[0].startISO, b = buckets[buckets.length - 1].endISO;
-    var label = count === 1 ? p.title : p.title;
-    return { label: label, buckets: buckets, startISO: a, endISO: b };
-  }
+var a = buckets[0].startISO, b = buckets[buckets.length - 1].endISO;
+var label = count === 1 ? p.title : p.title;
+return { label: label, buckets: buckets, startISO: a, endISO: b };
+}
 
-  function renderPeriods() {
-    var host = $("periods");
-    if (host.childElementCount === PERIODS.length) {
-      [].forEach.call(host.children, function (b, i) {
-        b.setAttribute("aria-pressed", String(PERIODS[i].id === state.period));
-      });
-      return;
-    }
-    host.textContent = "";
-    PERIODS.forEach(function (p) {
-      var b = document.createElement("button");
-      b.type = "button";
-      b.textContent = p.label;
-      b.title = p.title;
-      b.setAttribute("aria-pressed", String(p.id === state.period));
-      b.addEventListener("click", function () {
-        state.period = p.id;
-        try { localStorage.setItem("study-log:period", p.id); } catch (e) {}
-        renderAll();
-      });
-      host.appendChild(b);
-    });
-  }
+function renderPeriods() {
+var host = $("periods");
+if (host.childElementCount === PERIODS.length) {
+[].forEach.call(host.children, function (b, i) {
+b.setAttribute("aria-pressed", String(PERIODS[i].id === state.period));
+});
+return;
+}
+host.textContent = "";
+PERIODS.forEach(function (p) {
+var b = document.createElement("button");
+b.type = "button";
+b.textContent = p.label;
+b.title = p.title;
+b.setAttribute("aria-pressed", String(p.id === state.period));
+b.addEventListener("click", function () {
+state.period = p.id;
+try { localStorage.setItem("study-log:period", p.id); } catch (e) {}
+renderAll();
+});
+host.appendChild(b);
+});
+}
 
-  function axisScale(maxMins) {
-    var hours = Math.max(0.5, maxMins / 60);
-    var steps = [0.5,1,2,3,4,6,8,10,12,16,20,25,30,40,50];
-    var step = steps[steps.length - 1];
-    for (var i = 0; i < steps.length; i++) { if (steps[i] * 4 >= hours) { step = steps[i]; break; } }
-    return { top: step * 4 * 60, step: step };
-  }
+function axisScale(maxMins) {
+var hours = Math.max(0.5, maxMins / 60);
+var steps = [0.5,1,2,3,4,6,8,10,12,16,20,25,30,40,50];
+var step = steps[steps.length - 1];
+for (var i = 0; i < steps.length; i++) { if (steps[i] * 4 >= hours) { step = steps[i]; break; } }
+return { top: step * 4 * 60, step: step };
+}
 
-  // Minutes per subject inside one clock hour of today, splitting a session
-  // across the hour boundaries it actually spans.
-  function hourlyBySubject(hour) {
-    var out = {};
-    var today = toISO(new Date());
-    var hourStart = hour * 60, hourEnd = hourStart + 60;
-    state.sessions.forEach(function (s) {
-      if (s.day !== today || !s.started_at) return;
-      var d = new Date(s.started_at);
-      if (isNaN(d)) return;
-      var from = d.getHours() * 60 + d.getMinutes();
-      var to = from + s.minutes;
-      var overlap = Math.min(to, hourEnd) - Math.max(from, hourStart);
-      if (overlap > 0) out[s.subject] = (out[s.subject] || 0) + overlap;
-    });
-    return out;
-  }
+// Minutes per subject inside one clock hour of today, splitting a session
+// across the hour boundaries it actually spans, for one direct person.
+function directHourlyBySubject(pid, hour) {
+var out = {};
+var today = toISO(new Date());
+var hourStart = hour * 60, hourEnd = hourStart + 60;
+state.sessions.forEach(function (s) {
+if (s.person !== pid || s.day !== today || !s.started_at) return;
+var d = new Date(s.started_at);
+if (isNaN(d)) return;
+var from = d.getHours() * 60 + d.getMinutes();
+var to = from + s.minutes;
+var overlap = Math.min(to, hourEnd) - Math.max(from, hourStart);
+if (overlap > 0) out[s.subject] = (out[s.subject] || 0) + overlap;
+});
+return out;
+}
+function directHourlyTotal(pid, hour) {
+var by = directHourlyBySubject(pid, hour);
+return Object.keys(by).reduce(function (t, k) { return t + by[k]; }, 0);
+}
 
-  function wyelHourly(hour) {
-    var today = toISO(new Date());
-    var h = state.wyel && state.wyel.hourly && state.wyel.hourly[today];
-    return (h && h[hour]) || 0;
-  }
+function wyelHourly(hour) {
+var today = toISO(new Date());
+var h = state.wyel && state.wyel.hourly && state.wyel.hourly[today];
+return (h && h[hour]) || 0;
+}
 
-  // Sessions today with no recorded start time can't be placed on an hourly axis.
-  function untimedTodayMinutes(pid) {
-    var today = toISO(new Date()), total = 0;
-    if (pid === "aidan") {
-      state.sessions.forEach(function (s) {
-        if (s.day === today && !s.started_at) total += s.minutes;
-      });
-      return total;
-    }
-    // Wyel: whatever his daily total holds that the hourly breakdown doesn't.
-    var day = (state.wyel && state.wyel.daily && state.wyel.daily[today]) || 0;
-    var hrs = (state.wyel && state.wyel.hourly && state.wyel.hourly[today]) || [];
-    var placed = hrs.reduce(function (a, b) { return a + b; }, 0);
-    return Math.max(0, day - placed);
-  }
+// Sessions today with no recorded start time can't be placed on an hourly axis.
+function untimedTodayMinutes(pid) {
+var today = toISO(new Date()), total = 0;
+if (pid !== "wyel") {
+state.sessions.forEach(function (s) {
+if (s.person === pid && s.day === today && !s.started_at) total += s.minutes;
+});
+return total;
+}
+// Wyel: whatever his daily total holds that the hourly breakdown doesn't.
+var day = (state.wyel && state.wyel.daily && state.wyel.daily[today]) || 0;
+var hrs = (state.wyel && state.wyel.hourly && state.wyel.hourly[today]) || [];
+var placed = hrs.reduce(function (a, b) { return a + b; }, 0);
+return Math.max(0, day - placed);
+}
 
-  function groupsForBucket(b) {
-    if (b.hour !== undefined) {
-      if (state.person === "both") {
-        var aidanBy = hourlyBySubject(b.hour);
-        var aidanTotal = Object.keys(aidanBy).reduce(function (t, k) { return t + aidanBy[k]; }, 0);
-        return PEOPLE.map(function (p) {
-          var m = p.id === "aidan" ? aidanTotal : wyelHourly(b.hour);
-          return { total: m, segments: m ? [{ color: personColor(p.id), value: m, name: p.name }] : [] };
-        });
-      }
-      if (state.person === "wyel") {
-        var wm = wyelHourly(b.hour);
-        return [{ total: wm, segments: wm ? [{ color: personColor("wyel"), value: wm, name: "Wyel" }] : [] }];
-      }
-      var by = hourlyBySubject(b.hour);
-      var order = subjectList();
-      var segs = Object.keys(by).sort(function (x, y) {
-        return order.indexOf(x) - order.indexOf(y);
-      }).map(function (nm) {
-        return { color: subjectColor(nm), value: by[nm], name: nm };
-      });
-      return [{ total: segs.reduce(function (t, s) { return t + s.value; }, 0), segments: segs }];
-    }
-    if (state.person === "both") {
-      return PEOPLE.map(function (p) {
-        var m = minutesFor(p.id, b.startISO, b.endISO);
-        return { total: m, segments: m ? [{ color: personColor(p.id), value: m, name: p.name }] : [] };
-      });
-    }
-    if (state.person === "wyel") {
-      var m = wyelDaily(b.startISO, b.endISO);
-      return [{ total: m, segments: m ? [{ color: personColor("wyel"), value: m, name: "Wyel" }] : [] }];
-    }
-    var bySubject = {};
-    state.sessions.forEach(function (s) {
-      if (s.day < b.startISO || s.day > b.endISO) return;
-      bySubject[s.subject] = (bySubject[s.subject] || 0) + s.minutes;
-    });
-    var order = subjectList();
-    var names = Object.keys(bySubject).sort(function (x, y) {
-      return order.indexOf(x) - order.indexOf(y);
-    });
-    var segs = names.map(function (n) {
-      return { color: subjectColor(n), value: bySubject[n], name: n };
-    });
-    return [{ total: segs.reduce(function (t, s) { return t + s.value; }, 0), segments: segs }];
-  }
+function groupsForBucket(b) {
+if (b.hour !== undefined) {
+if (state.person === "both") {
+return PEOPLE.map(function (p) {
+var m = p.id === "wyel" ? wyelHourly(b.hour) : directHourlyTotal(p.id, b.hour);
+return { total: m, segments: m ? [{ color: personColor(p.id), value: m, name: p.name }] : [] };
+});
+}
+if (state.person === "wyel") {
+var wm = wyelHourly(b.hour);
+return [{ total: wm, segments: wm ? [{ color: personColor("wyel"), value: wm, name: "Wyel" }] : [] }];
+}
+var by = directHourlyBySubject(state.person, b.hour);
+var order = subjectList();
+var segs = Object.keys(by).sort(function (x, y) {
+return order.indexOf(x) - order.indexOf(y);
+}).map(function (nm) {
+return { color: subjectColor(nm), value: by[nm], name: nm };
+});
+return [{ total: segs.reduce(function (t, s) { return t + s.value; }, 0), segments: segs }];
+}
+if (state.person === "both") {
+return PEOPLE.map(function (p) {
+var m = minutesFor(p.id, b.startISO, b.endISO);
+return { total: m, segments: m ? [{ color: personColor(p.id), value: m, name: p.name }] : [] };
+});
+}
+if (state.person === "wyel") {
+var m = wyelDaily(b.startISO, b.endISO);
+return [{ total: m, segments: m ? [{ color: personColor("wyel"), value: m, name: "Wyel" }] : [] }];
+}
+var bySubject = {};
+state.sessions.forEach(function (s) {
+if (s.person !== state.person || s.day < b.startISO || s.day > b.endISO) return;
+bySubject[s.subject] = (bySubject[s.subject] || 0) + s.minutes;
+});
+var order = subjectList();
+var names = Object.keys(bySubject).sort(function (x, y) {
+return order.indexOf(x) - order.indexOf(y);
+});
+var segs = names.map(function (n) {
+return { color: subjectColor(n), value: bySubject[n], name: n };
+});
+return [{ total: segs.reduce(function (t, s) { return t + s.value; }, 0), segments: segs }];
+}
 
-  function renderChart(frame) {
-    var svg = $("chart"), wrap = $("chart-wrap");
-    svg.textContent = "";
-    var W = Math.max(320, wrap.clientWidth || 640);
-    var H = 280, padL = 42, padR = 10, padT = 26, padB = 38;
-    var plotW = W - padL - padR, plotH = H - padT - padB;
-    svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+function renderChart(frame) {
+var svg = $("chart"), wrap = $("chart-wrap");
+svg.textContent = "";
+var W = Math.max(320, wrap.clientWidth || 640);
+var H = 280, padL = 42, padR = 10, padT = 26, padB = 38;
+var plotW = W - padL - padR, plotH = H - padT - padB;
+svg.setAttribute("viewBox", "0 0 " + W + " " + H);
 
-    var data = frame.buckets.map(function (b) {
-      var g = groupsForBucket(b);
-      return { bucket: b, groups: g, max: g.reduce(function (m, x) { return Math.max(m, x.total); }, 0) };
-    });
-    var scale = axisScale(data.reduce(function (m, d) { return Math.max(m, d.max); }, 0));
-    var top = scale.top;
+var data = frame.buckets.map(function (b) {
+var g = groupsForBucket(b);
+return { bucket: b, groups: g, max: g.reduce(function (m, x) { return Math.max(m, x.total); }, 0) };
+});
+var scale = axisScale(data.reduce(function (m, d) { return Math.max(m, d.max); }, 0));
+var top = scale.top;
 
-    var NS = "http://www.w3.org/2000/svg";
-    function el(n, a) {
-      var e = document.createElementNS(NS, n);
-      Object.keys(a).forEach(function (k) { e.setAttribute(k, a[k]); });
-      return e;
-    }
+var NS = "http://www.w3.org/2000/svg";
+function el(n, a) {
+var e = document.createElementNS(NS, n);
+Object.keys(a).forEach(function (k) { e.setAttribute(k, a[k]); });
+return e;
+}
 
-    for (var t = 0; t <= 4; t++) {
-      var val = (top / 4) * t, y = padT + plotH - (val / top) * plotH;
-      svg.appendChild(el("line", { x1: padL, x2: padL + plotW, y1: y, y2: y, stroke: t === 0 ? "var(--rule)" : "var(--grid)", "stroke-width": 1 }));
-      var lb = el("text", { x: padL - 9, y: y + 4, "text-anchor": "end", fill: "var(--muted)", "font-size": 11, "font-family": "var(--mono)" });
-      lb.textContent = (scale.step % 1 === 0 ? (val / 60).toFixed(0) : (val / 60).toFixed(1)) + "h";
-      svg.appendChild(lb);
-    }
+for (var t = 0; t <= 4; t++) {
+var val = (top / 4) * t, y = padT + plotH - (val / top) * plotH;
+svg.appendChild(el("line", { x1: padL, x2: padL + plotW, y1: y, y2: y, stroke: t === 0 ? "var(--rule)" : "var(--grid)", "stroke-width": 1 }));
+var lb = el("text", { x: padL - 9, y: y + 4, "text-anchor": "end", fill: "var(--muted)", "font-size": 11, "font-family": "var(--mono)" });
+lb.textContent = (scale.step % 1 === 0 ? (val / 60).toFixed(0) : (val / 60).toFixed(1)) + "h";
+svg.appendChild(lb);
+}
 
-    var n = data.length, slot = plotW / n;
-    var nGroups = state.person === "both" ? 2 : 1;
-    var gap = 3;
-    var clusterW = Math.min(nGroups === 1 ? 46 : 60, slot * 0.62);
-    var barW = Math.max(6, (clusterW - gap * (nGroups - 1)) / nGroups);
-    var tip = $("tip");
-    function showTip(html, x, y) { tip.innerHTML = html; tip.style.left = x + "px"; tip.style.top = (y - 8) + "px"; tip.classList.add("on"); }
-    function hideTip() { tip.classList.remove("on"); }
+var n = data.length, slot = plotW / n;
+var nGroups = state.person === "both" ? PEOPLE.length : 1;
+var gap = 3;
+var clusterW = Math.min(nGroups === 1 ? 46 : 60, slot * 0.62);
+var barW = Math.max(6, (clusterW - gap * (nGroups - 1)) / nGroups);
+var tip = $("tip");
+function showTip(html, x, y) { tip.innerHTML = html; tip.style.left = x + "px"; tip.style.top = (y - 8) + "px"; tip.classList.add("on"); }
+function hideTip() { tip.classList.remove("on"); }
 
-    data.forEach(function (d, bi) {
-      var cx = padL + slot * bi + slot / 2;
-      var left = cx - (barW * nGroups + gap * (nGroups - 1)) / 2;
+data.forEach(function (d, bi) {
+var cx = padL + slot * bi + slot / 2;
+var left = cx - (barW * nGroups + gap * (nGroups - 1)) / 2;
 
-      if (d.bucket.label) {
-        var xl = el("text", { x: cx, y: padT + plotH + 18, "text-anchor": "middle", fill: "var(--muted)", "font-size": 11 });
-        xl.textContent = d.bucket.label;
-        svg.appendChild(xl);
-      }
-      if (d.bucket.sub) {
-        var xs = el("text", { x: cx, y: padT + plotH + 31, "text-anchor": "middle", fill: "var(--muted)", "font-size": 10, "font-family": "var(--mono)" });
-        xs.textContent = d.bucket.sub;
-        svg.appendChild(xs);
-      }
+if (d.bucket.label) {
+var xl = el("text", { x: cx, y: padT + plotH + 18, "text-anchor": "middle", fill: "var(--muted)", "font-size": 11 });
+xl.textContent = d.bucket.label;
+svg.appendChild(xl);
+}
+if (d.bucket.sub) {
+var xs = el("text", { x: cx, y: padT + plotH + 31, "text-anchor": "middle", fill: "var(--muted)", "font-size": 10, "font-family": "var(--mono)" });
+xs.textContent = d.bucket.sub;
+svg.appendChild(xs);
+}
 
-      d.groups.forEach(function (g, gi) {
-        if (!g.total) return;
-        var x = left + gi * (barW + gap), yCur = padT + plotH;
-        g.segments.forEach(function (seg, si) {
-          var rawH = (seg.value / top) * plotH;
-          var sp = si < g.segments.length - 1 ? 2 : 0;
-          var h = Math.max(2, rawH - sp), y = yCur - h;
-          var isTop = si === g.segments.length - 1;
-          var rect = el("rect", { x: x, y: y, width: barW, height: h, fill: seg.color, rx: isTop ? 4 : 0, ry: isTop ? 4 : 0 });
-          svg.appendChild(rect);
-          if (isTop && h > 6) svg.appendChild(el("rect", { x: x, y: y + h - 4, width: barW, height: 4, fill: seg.color }));
-          rect.addEventListener("mouseenter", function () {
-            showTip(d.bucket.tipLabel + " — " + seg.name + " · <b>" + fmtHM(seg.value) + "</b>", x + barW / 2, y);
-          });
-          rect.addEventListener("mouseleave", hideTip);
-          yCur -= rawH;
-        });
-        // Direct labels only while they stay readable; past ~10 bars the
-        // tooltip and the summary strip carry the numbers instead.
-        if (state.person !== "both" && n <= 10) {
-          var tl = el("text", { x: x + barW / 2, y: padT + plotH - (g.total / top) * plotH - 8, "text-anchor": "middle", fill: "var(--ink-2)", "font-size": 11, "font-family": "var(--mono)" });
-          tl.textContent = fmtHours(g.total);
-          svg.appendChild(tl);
-        }
-      });
-    });
-    svg.addEventListener("mouseleave", hideTip);
+d.groups.forEach(function (g, gi) {
+if (!g.total) return;
+var x = left + gi * (barW + gap), yCur = padT + plotH;
+g.segments.forEach(function (seg, si) {
+var rawH = (seg.value / top) * plotH;
+var sp = si < g.segments.length - 1 ? 2 : 0;
+var h = Math.max(2, rawH - sp), y = yCur - h;
+var isTop = si === g.segments.length - 1;
+var rect = el("rect", { x: x, y: y, width: barW, height: h, fill: seg.color, rx: isTop ? 4 : 0, ry: isTop ? 4 : 0 });
+svg.appendChild(rect);
+if (isTop && h > 6) svg.appendChild(el("rect", { x: x, y: y + h - 4, width: barW, height: 4, fill: seg.color }));
+rect.addEventListener("mouseenter", function () {
+showTip(d.bucket.tipLabel + " — " + seg.name + " · <b>" + fmtHM(seg.value) + "</b>", x + barW / 2, y);
+});
+rect.addEventListener("mouseleave", hideTip);
+yCur -= rawH;
+});
+// Direct labels only while they stay readable; past ~10 bars the
+// tooltip and the summary strip carry the numbers instead.
+if (state.person !== "both" && n <= 10) {
+var tl = el("text", { x: x + barW / 2, y: padT + plotH - (g.total / top) * plotH - 8, "text-anchor": "middle", fill: "var(--ink-2)", "font-size": 11, "font-family": "var(--mono)" });
+tl.textContent = fmtHours(g.total);
+svg.appendChild(tl);
+}
+});
+});
+svg.addEventListener("mouseleave", hideTip);
 
-    $("chart-desc").textContent = "Study time per " + resolvedUnit() + ", " +
-      currentPeriod().title.toLowerCase() + ": " +
-      data.map(function (d) {
-        return state.person === "both"
-          ? d.bucket.tipLabel + ": " + d.groups.map(function (g, i) { return PEOPLE[i].name + " " + fmtHM(g.total); }).join(", ")
-          : d.bucket.tipLabel + " " + fmtHM(d.groups[0].total);
-      }).join("; ") + ".";
-  }
+$("chart-desc").textContent = "Study time per " + resolvedUnit() + ", " +
+currentPeriod().title.toLowerCase() + ": " +
+data.map(function (d) {
+return state.person === "both"
+? d.bucket.tipLabel + ": " + d.groups.map(function (g, i) { return PEOPLE[i].name + " " + fmtHM(g.total); }).join(", ")
+: d.bucket.tipLabel + " " + fmtHM(d.groups[0].total);
+}).join("; ") + ".";
+}
 
-  /* ---------- summary strip ---------- */
-  function renderStatStrip() {
-    var host = $("statstrip");
-    host.textContent = "";
-    var now = new Date();
-    var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-    var t = toISO(today);
+/* ---------- summary strip ---------- */
+function renderStatStrip() {
+var host = $("statstrip");
+host.textContent = "";
+var now = new Date();
+var today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+var t = toISO(today);
 
-    var spans = [
-      { k: "Today",        a: t,                          b: t },
-      { k: "Last 7 days",  a: toISO(addDays(today, -6)),  b: t },
-      { k: "Last 30 days", a: toISO(addDays(today, -29)), b: t },
-      { k: "All time",     a: "0000-01-01",               b: "9999-12-31" }
-    ];
+var spans = [
+{ k: "Today", a: t, b: t },
+{ k: "Last 7 days", a: toISO(addDays(today, -6)), b: t },
+{ k: "Last 30 days", a: toISO(addDays(today, -29)), b: t },
+{ k: "All time", a: "0000-01-01", b: "9999-12-31" }
+];
 
-    spans.forEach(function (s) {
-      var cell = document.createElement("div");
-      cell.className = "cell";
-      var k = document.createElement("span");
-      k.className = "k";
-      k.textContent = s.k;
-      cell.appendChild(k);
+spans.forEach(function (s) {
+var cell = document.createElement("div");
+cell.className = "cell";
+var k = document.createElement("span");
+k.className = "k";
+k.textContent = s.k;
+cell.appendChild(k);
 
-      if (state.person === "both") {
-        PEOPLE.forEach(function (p, i) {
-          var pair = document.createElement("div");
-          pair.className = "pair";
-          var dot = document.createElement("span");
-          dot.className = "dot2";
-          dot.style.background = personColor(p.id);
-          var v = document.createElement("span");
-          v.className = "v";
-          v.style.fontSize = "15px";
-          v.textContent = fmtHM(minutesFor(p.id, s.a, s.b));
-          pair.appendChild(dot);
-          pair.appendChild(v);
-          cell.appendChild(pair);
-        });
-      } else {
-        var v = document.createElement("span");
-        v.className = "v";
-        v.textContent = fmtHM(minutesFor(state.person, s.a, s.b));
-        cell.appendChild(v);
-        var days = daysStudied(state.person, s.a, s.b);
-        if (s.k !== "Today") {
-          var sub = document.createElement("span");
-          sub.className = "sub";
-          sub.textContent = days + (days === 1 ? " day" : " days");
-          cell.appendChild(sub);
-        }
-      }
-      host.appendChild(cell);
-    });
-  }
+if (state.person === "both") {
+PEOPLE.forEach(function (p, i) {
+var pair = document.createElement("div");
+pair.className = "pair";
+var dot = document.createElement("span");
+dot.className = "dot2";
+dot.style.background = personColor(p.id);
+var v = document.createElement("span");
+v.className = "v";
+v.style.fontSize = "15px";
+v.textContent = fmtHM(minutesFor(p.id, s.a, s.b));
+pair.appendChild(dot);
+pair.appendChild(v);
+cell.appendChild(pair);
+});
+} else {
+var v = document.createElement("span");
+v.className = "v";
+v.textContent = fmtHM(minutesFor(state.person, s.a, s.b));
+cell.appendChild(v);
+var days = daysStudied(state.person, s.a, s.b);
+if (s.k !== "Today") {
+var sub = document.createElement("span");
+sub.className = "sub";
+sub.textContent = days + (days === 1 ? " day" : " days");
+cell.appendChild(sub);
+}
+}
+host.appendChild(cell);
+});
+}
 
-  function renderLegend() {
-    var host = $("legend");
-    host.textContent = "";
-    var items = [];
-    if (state.person === "both") items = PEOPLE.map(function (p) { return { name: p.name, color: personColor(p.id) }; });
-    else if (state.person === "aidan") items = subjectList().map(function (s) { return { name: s, color: subjectColor(s) }; });
-    if (items.length < 2) return;
-    items.forEach(function (it) {
-      var e = document.createElement("span");
-      e.className = "item";
-      var sw = document.createElement("span");
-      sw.className = "swatch";
-      sw.style.background = it.color;
-      e.appendChild(sw);
-      e.appendChild(document.createTextNode(it.name));
-      host.appendChild(e);
-    });
-  }
+function renderLegend() {
+var host = $("legend");
+host.textContent = "";
+var items = [];
+if (state.person === "both") items = PEOPLE.map(function (p) { return { name: p.name, color: personColor(p.id) }; });
+else if (isDirectPerson(state.person)) items = subjectList().map(function (s) { return { name: s, color: subjectColor(s) }; });
+if (items.length < 2) return;
+items.forEach(function (it) {
+var e = document.createElement("span");
+e.className = "item";
+var sw = document.createElement("span");
+sw.className = "swatch";
+sw.style.background = it.color;
+e.appendChild(sw);
+e.appendChild(document.createTextNode(it.name));
+host.appendChild(e);
+});
+}
 
-  function renderTabs() {
-    var host = $("tabs");
-    host.textContent = "";
-    PEOPLE.concat([{ id: "both", name: "Compare" }]).forEach(function (p) {
-      var b = document.createElement("button");
-      b.className = "tab";
-      b.type = "button";
-      b.setAttribute("role", "tab");
-      b.setAttribute("aria-selected", String(state.person === p.id));
-      if (p.id !== "both") {
-        b.style.setProperty("--tabcolor", personColor(p.id));
-        var dot = document.createElement("span");
-        dot.className = "pdot";
-        dot.style.background = personColor(p.id);
-        b.appendChild(dot);
-      }
-      b.appendChild(document.createTextNode(p.name));
-      b.addEventListener("click", function () { state.person = p.id; savePerson(p.id); renderAll(); });
-      host.appendChild(b);
-    });
-  }
+function renderTabs() {
+var host = $("tabs");
+host.textContent = "";
+PEOPLE.concat([{ id: "both", name: "Compare" }]).forEach(function (p) {
+var b = document.createElement("button");
+b.className = "tab";
+b.type = "button";
+b.setAttribute("role", "tab");
+b.setAttribute("aria-selected", String(state.person === p.id));
+if (p.id !== "both") {
+b.style.setProperty("--tabcolor", personColor(p.id));
+var dot = document.createElement("span");
+dot.className = "pdot";
+dot.style.background = personColor(p.id);
+b.appendChild(dot);
+}
+b.appendChild(document.createTextNode(p.name));
+b.addEventListener("click", function () { state.person = p.id; savePerson(p.id); renderAll(); });
+host.appendChild(b);
+});
+}
 
-  function renderChips() {
-    var host = $("timer-chips");
-    host.textContent = "";
-    $("timer-who").textContent = "Aidan";
-    subjectList().forEach(function (name) {
-      var b = document.createElement("button");
-      b.className = "chip";
-      b.type = "button";
-      b.setAttribute("aria-pressed", String(state.selected === name));
-      var sw = document.createElement("span");
-      sw.className = "swatch";
-      sw.style.background = subjectColor(name);
-      b.appendChild(sw);
-      b.appendChild(document.createTextNode(name));
-      b.disabled = !!state.running;
-      b.addEventListener("click", function () { state.selected = name; renderChips(); renderTimer(); });
-      host.appendChild(b);
-    });
-  }
+function renderChips() {
+var host = $("timer-chips");
+host.textContent = "";
+$("timer-who").textContent = personName(state.person);
+subjectList().forEach(function (name) {
+var b = document.createElement("button");
+b.className = "chip";
+b.type = "button";
+b.setAttribute("aria-pressed", String(state.selected === name));
+var sw = document.createElement("span");
+sw.className = "swatch";
+sw.style.background = subjectColor(name);
+b.appendChild(sw);
+b.appendChild(document.createTextNode(name));
+b.disabled = !!state.running;
+b.addEventListener("click", function () { state.selected = name; renderChips(); renderTimer(); });
+host.appendChild(b);
+});
+}
 
-  function renderTimer() {
-    var r = $("readout"), line = $("running-line"), btn = $("startstop");
-    line.textContent = "";
-    if (state.running) {
-      r.classList.remove("idle");
-      r.textContent = fmtClock(Date.now() - state.running.startedAt);
-      var dot = document.createElement("span");
-      dot.className = "dot";
-      line.appendChild(dot);
-      line.appendChild(document.createTextNode(
-        state.running.subject + " · from " +
-        new Date(state.running.startedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
-      ));
-      btn.textContent = "Stop and save";
-      btn.disabled = false;
-    } else {
-      r.classList.add("idle");
-      r.textContent = "00:00:00";
-      line.textContent = state.selected ? "Ready · " + state.selected : "Pick a subject to start.";
-      btn.textContent = "Start";
-      btn.disabled = !state.selected;
-    }
-  }
+function renderTimer() {
+var r = $("readout"), line = $("running-line"), btn = $("startstop");
+line.textContent = "";
+if (state.running) {
+r.classList.remove("idle");
+r.textContent = fmtClock(Date.now() - state.running.startedAt);
+var dot = document.createElement("span");
+dot.className = "dot";
+line.appendChild(dot);
+line.appendChild(document.createTextNode(
+state.running.subject + " · from " +
+new Date(state.running.startedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })
+));
+btn.textContent = "Stop and save";
+btn.disabled = false;
+} else {
+r.classList.add("idle");
+r.textContent = "00:00:00";
+line.textContent = state.selected ? "Ready · " + state.selected : "Pick a subject to start.";
+btn.textContent = "Start";
+btn.disabled = !state.selected;
+}
+}
 
-  function renderPickers() {
-    var sel = $("add-subject"), prev = sel.value;
-    sel.textContent = "";
-    subjectList().forEach(function (s) {
-      var o = document.createElement("option");
-      o.value = s; o.textContent = s;
-      sel.appendChild(o);
-    });
-    if (prev && subjectList().indexOf(prev) >= 0) sel.value = prev;
-  }
+function renderPickers() {
+var sel = $("add-subject"), prev = sel.value;
+sel.textContent = "";
+subjectList().forEach(function (s) {
+var o = document.createElement("option");
+o.value = s; o.textContent = s;
+sel.appendChild(o);
+});
+if (prev && subjectList().indexOf(prev) >= 0) sel.value = prev;
+}
 
-  function renderToday() {
-    var today = toISO(new Date());
-    var list = state.sessions.filter(function (s) { return s.day === today; })
-      .sort(function (a, b) { return String(b.created_at || b.id) > String(a.created_at || a.id) ? 1 : -1; });
-    var host = $("today-list");
-    host.textContent = "";
-    var total = list.reduce(function (t, s) { return t + s.minutes; }, 0);
-    $("today-total").textContent = total ? fmtHM(total) : "";
-    if (!list.length) {
-      var li = document.createElement("li");
-      li.className = "empty";
-      li.textContent = "Nothing logged yet today.";
-      host.appendChild(li);
-      return;
-    }
-    list.forEach(function (s) {
-      var li = document.createElement("li");
-      var sw = document.createElement("span");
-      sw.className = "swatch";
-      sw.style.background = subjectColor(s.subject);
-      var nm = document.createElement("span");
-      nm.className = "s-name";
-      nm.textContent = s.subject;
-      if (s.note) {
-        var nt = document.createElement("span");
-        nt.className = "s-note";
-        nt.textContent = " · " + s.note;
-        nm.appendChild(nt);
-      }
-      var mn = document.createElement("span");
-      mn.className = "s-min";
-      mn.textContent = fmtHM(s.minutes);
-      var del = document.createElement("button");
-      del.className = "x"; del.type = "button"; del.textContent = "×";
-      del.setAttribute("aria-label", "Delete this session");
-      del.addEventListener("click", function () { deleteSession(s.id); });
-      li.appendChild(sw); li.appendChild(nm); li.appendChild(mn); li.appendChild(del);
-      host.appendChild(li);
-    });
-  }
+function renderToday() {
+var today = toISO(new Date());
+var list = state.sessions.filter(function (s) { return s.person === state.person && s.day === today; })
+.sort(function (a, b) { return String(b.created_at || b.id) > String(a.created_at || a.id) ? 1 : -1; });
+var host = $("today-list");
+host.textContent = "";
+var total = list.reduce(function (t, s) { return t + s.minutes; }, 0);
+$("today-total").textContent = total ? fmtHM(total) : "";
+if (!list.length) {
+var li = document.createElement("li");
+li.className = "empty";
+li.textContent = "Nothing logged yet today.";
+host.appendChild(li);
+return;
+}
+list.forEach(function (s) {
+var li = document.createElement("li");
+var sw = document.createElement("span");
+sw.className = "swatch";
+sw.style.background = subjectColor(s.subject);
+var nm = document.createElement("span");
+nm.className = "s-name";
+nm.textContent = s.subject;
+if (s.note) {
+var nt = document.createElement("span");
+nt.className = "s-note";
+nt.textContent = " · " + s.note;
+nm.appendChild(nt);
+}
+var mn = document.createElement("span");
+mn.className = "s-min";
+mn.textContent = fmtHM(s.minutes);
+var del = document.createElement("button");
+del.className = "x"; del.type = "button"; del.textContent = "×";
+del.setAttribute("aria-label", "Delete this session");
+del.addEventListener("click", function () { deleteSession(s.id); });
+li.appendChild(sw); li.appendChild(nm); li.appendChild(mn); li.appendChild(del);
+host.appendChild(li);
+});
+}
 
-  function fillTotals(rows, showAll) {
-    var body = $("totals-body");
-    body.textContent = "";
-    var max = rows.reduce(function (m, r) { return Math.max(m, showAll ? r.all : r.range); }, 0);
-    if (!rows.length) {
-      var tr = document.createElement("tr");
-      var td = document.createElement("td");
-      td.colSpan = showAll ? 3 : 2;
-      td.className = "empty";
-      td.textContent = "Nothing here yet.";
-      tr.appendChild(td);
-      body.appendChild(tr);
-      return;
-    }
-    rows.forEach(function (r) {
-      var tr = document.createElement("tr");
-      var tdN = document.createElement("td");
-      var cell = document.createElement("div");
-      cell.className = "cellname";
-      var sw = document.createElement("span");
-      sw.className = "swatch";
-      sw.style.background = r.color;
-      cell.appendChild(sw);
-      cell.appendChild(document.createTextNode(r.name));
-      tdN.appendChild(cell);
-      var meter = document.createElement("div");
-      meter.className = "meter";
-      var fill = document.createElement("i");
-      fill.style.width = (max ? ((showAll ? r.all : r.range) / max) * 100 : 0) + "%";
-      fill.style.background = r.color;
-      meter.appendChild(fill);
-      tdN.appendChild(meter);
-      tr.appendChild(tdN);
-      var tdR = document.createElement("td");
-      tdR.textContent = r.range ? fmtHM(r.range) : "–";
-      tr.appendChild(tdR);
-      if (showAll) {
-        var tdA = document.createElement("td");
-        tdA.textContent = r.all ? fmtHM(r.all) : "–";
-        tr.appendChild(tdA);
-      }
-      body.appendChild(tr);
-    });
-  }
+function fillTotals(rows, showAll) {
+var body = $("totals-body");
+body.textContent = "";
+var max = rows.reduce(function (m, r) { return Math.max(m, showAll ? r.all : r.range); }, 0);
+if (!rows.length) {
+var tr = document.createElement("tr");
+var td = document.createElement("td");
+td.colSpan = showAll ? 3 : 2;
+td.className = "empty";
+td.textContent = "Nothing here yet.";
+tr.appendChild(td);
+body.appendChild(tr);
+return;
+}
+rows.forEach(function (r) {
+var tr = document.createElement("tr");
+var tdN = document.createElement("td");
+var cell = document.createElement("div");
+cell.className = "cellname";
+var sw = document.createElement("span");
+sw.className = "swatch";
+sw.style.background = r.color;
+cell.appendChild(sw);
+cell.appendChild(document.createTextNode(r.name));
+tdN.appendChild(cell);
+var meter = document.createElement("div");
+meter.className = "meter";
+var fill = document.createElement("i");
+fill.style.width = (max ? ((showAll ? r.all : r.range) / max) * 100 : 0) + "%";
+fill.style.background = r.color;
+meter.appendChild(fill);
+tdN.appendChild(meter);
+tr.appendChild(tdN);
+var tdR = document.createElement("td");
+tdR.textContent = r.range ? fmtHM(r.range) : "–";
+tr.appendChild(tdR);
+if (showAll) {
+var tdA = document.createElement("td");
+tdA.textContent = r.all ? fmtHM(r.all) : "–";
+tr.appendChild(tdA);
+}
+body.appendChild(tr);
+});
+}
 
-  function renderCompare(frame) {
-    var a = frame.buckets[0].startISO, b = frame.buckets[frame.buckets.length - 1].endISO;
-    $("cmp-period").textContent = frame.label;
-    var totals = PEOPLE.map(function (p) {
-      return { id: p.id, name: p.name, color: personColor(p.id), mins: minutesFor(p.id, a, b), days: daysStudied(p.id, a, b) };
-    });
+function renderCompare(frame) {
+var a = frame.buckets[0].startISO, b = frame.buckets[frame.buckets.length - 1].endISO;
+$("cmp-period").textContent = frame.label;
+var totals = PEOPLE.map(function (p) {
+return { id: p.id, name: p.name, color: personColor(p.id), mins: minutesFor(p.id, a, b), days: daysStudied(p.id, a, b) };
+}).sort(function (x, y) { return y.mins - x.mins; });
 
-    var host = $("versus");
-    host.textContent = "";
-    totals.forEach(function (t, i) {
-      if (i === 1) {
-        var mid = document.createElement("div");
-        mid.className = "vs-mid";
-        mid.textContent = "vs";
-        host.appendChild(mid);
-      }
-      var side = document.createElement("div");
-      side.className = "vs-side" + (i === 1 ? " right" : "");
-      var nm = document.createElement("div");
-      nm.className = "vs-name";
-      var sw = document.createElement("span");
-      sw.className = "swatch";
-      sw.style.background = t.color;
-      nm.appendChild(sw);
-      nm.appendChild(document.createTextNode(t.name));
-      var hrs = document.createElement("div");
-      hrs.className = "vs-hours";
-      hrs.textContent = t.mins ? fmtHM(t.mins) : "0m";
-      var sub = document.createElement("div");
-      sub.className = "vs-sub";
-      sub.textContent = t.days + (t.days === 1 ? " day" : " days") + " studied";
-      side.appendChild(nm); side.appendChild(hrs); side.appendChild(sub);
-      host.appendChild(side);
-    });
+var max = totals.reduce(function (m, t) { return Math.max(m, t.mins); }, 0);
+var host = $("versus");
+host.textContent = "";
+totals.forEach(function (t, i) {
+var row = document.createElement("div");
+row.className = "cmp-row" + (i === 0 && t.mins > 0 ? " lead" : "");
 
-    var bar = $("vs-bar");
-    bar.textContent = "";
-    var sum = totals[0].mins + totals[1].mins;
-    totals.forEach(function (t) {
-      var i = document.createElement("i");
-      i.style.width = (sum ? (t.mins / sum) * 100 : 50) + "%";
-      i.style.background = sum ? t.color : "var(--grid)";
-      bar.appendChild(i);
-    });
+var head = document.createElement("div");
+head.className = "cmp-head";
+var nm = document.createElement("span");
+nm.className = "cmp-name";
+var sw = document.createElement("span");
+sw.className = "swatch";
+sw.style.background = t.color;
+nm.appendChild(sw);
+nm.appendChild(document.createTextNode(t.name));
+var val = document.createElement("span");
+val.className = "cmp-val";
+val.textContent = t.mins ? fmtHM(t.mins) : "0m";
+head.appendChild(nm);
+head.appendChild(val);
 
-    var lead = totals.slice().sort(function (x, y) { return y.mins - x.mins; });
-    $("vs-caption").textContent = !sum
-      ? "Nothing logged in this period yet."
-      : lead[0].mins === lead[1].mins
-        ? "Dead even this period."
-        : lead[0].name + " is ahead by " + fmtHM(lead[0].mins - lead[1].mins) + " this period.";
+var bar = document.createElement("div");
+bar.className = "cmp-bar";
+var fill = document.createElement("i");
+fill.style.width = (max ? (t.mins / max) * 100 : 0) + "%";
+fill.style.background = t.color;
+bar.appendChild(fill);
 
-    fillTotals(totals.map(function (t) {
-      return { name: t.name, color: t.color, range: t.mins, all: minutesFor(t.id, "0000-01-01", "9999-12-31") };
-    }), true);
-  }
+row.appendChild(head);
+row.appendChild(bar);
+host.appendChild(row);
+});
 
-  function renderWyelPanel() {
-    var w = state.wyel;
-    var synced = $("wyel-synced"), note = $("wyel-note");
-    if (!w || !w.updatedAt) {
-      synced.textContent = "";
-      note.textContent = "No data yet. Once Wyel publishes his Daily_Tracker tab as CSV and the hourly sync runs, his hours appear here automatically.";
-      return;
-    }
-    synced.textContent = "synced " + new Date(w.updatedAt).toLocaleString([], { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
-    note.textContent = w.sessionsUsed + " sessions from his sheet · " +
-      (w.totalMinutes / 60).toFixed(1) + "h total" +
-      (w.firstDay ? " · " + w.firstDay + " to " + w.lastDay : "");
-  }
+$("vs-caption").textContent = !max
+? "Nothing logged in this period yet."
+: (totals.length > 1 && totals[0].mins === totals[1].mins)
+? (totals[0].mins === 0 ? "Nothing logged in this period yet." : "Tied at the top this period.")
+: totals[0].name + " leads by " + fmtHM(totals[0].mins - (totals[1] ? totals[1].mins : 0)) + " this period.";
 
-  function renderStats() {
-    var ws = startOfWeek(new Date()), wa = toISO(ws), wb = toISO(addDays(ws, 6));
-    if (state.person === "both") {
-      $("stat-week").textContent = PEOPLE.map(function (p) { return fmtHM(minutesFor(p.id, wa, wb)); }).join(" / ");
-      $("stat-days").textContent = PEOPLE.map(function (p) { return daysStudied(p.id, wa, wb) + "/7"; }).join(" / ");
-    } else {
-      $("stat-week").textContent = fmtHM(minutesFor(state.person, wa, wb));
-      $("stat-days").textContent = daysStudied(state.person, wa, wb) + "/7";
-    }
-  }
+fillTotals(totals.map(function (t) {
+return { name: t.name, color: t.color, range: t.mins, all: minutesFor(t.id, "0000-01-01", "9999-12-31") };
+}), true);
+}
 
-  function renderStatus() {
-    var host = $("status");
-    host.textContent = "";
-    if (state.error) {
-      var w = document.createElement("span");
-      w.className = "warn";
-      w.textContent = state.error;
-      host.appendChild(w);
-      return;
-    }
-    if (!state.loaded) { host.textContent = "Connecting…"; return; }
-    if (!state.sb) {
-      var e = document.createElement("span");
-      e.className = "warn";
-      e.textContent = "Supabase isn't configured — check supabaseAnonKey in config.js. Nothing you log will be saved.";
-      host.appendChild(e);
-      return;
-    }
-    host.textContent = state.sessions.length + " sessions saved · syncs across your devices";
-  }
+function renderWyelPanel() {
+var w = state.wyel;
+var synced = $("wyel-synced"), note = $("wyel-note");
+if (!w || !w.updatedAt) {
+synced.textContent = "";
+note.textContent = "No data yet. Once Wyel publishes his Daily_Tracker tab as CSV and the hourly sync runs, his hours appear here automatically.";
+return;
+}
+synced.textContent = "synced " + new Date(w.updatedAt).toLocaleString([], { day: "2-digit", month: "short", hour: "2-digit", minute: "2-digit" });
+note.textContent = w.sessionsUsed + " sessions from his sheet · " +
+(w.totalMinutes / 60).toFixed(1) + "h total" +
+(w.firstDay ? " · " + w.firstDay + " to " + w.lastDay : "");
+}
 
-  function renderAll() {
-    var frame = buildBuckets();
-    var both = state.person === "both", aidan = state.person === "aidan";
+function renderStats() {
+var ws = startOfWeek(new Date()), wa = toISO(ws), wb = toISO(addDays(ws, 6));
+if (state.person === "both") {
+$("stat-week").textContent = PEOPLE.map(function (p) { return fmtHM(minutesFor(p.id, wa, wb)); }).join(" / ");
+$("stat-days").textContent = PEOPLE.map(function (p) { return daysStudied(p.id, wa, wb) + "/7"; }).join(" / ");
+} else {
+$("stat-week").textContent = fmtHM(minutesFor(state.person, wa, wb));
+$("stat-days").textContent = daysStudied(state.person, wa, wb) + "/7";
+}
+}
 
-    $("layout").className = "grid" + (aidan ? "" : " wide");
-    $("col-left").hidden = !aidan;
-    $("compare-card").hidden = !both;
-    $("wyel-note-card").hidden = state.person !== "wyel";
-    $("totals-card").hidden = state.person === "wyel";
-    var unit = resolvedUnit();
-    $("chart-h").textContent = both
-      ? "Total per " + unit + ", compared"
-      : aidan
-        ? (unit === "hour" ? "Today, hour by hour" : "Time by subject")
-        : "Wyel's time per " + unit;
-    $("th-name").textContent = both ? "Person" : "Subject";
-    var rangeText = frame.label;
-    if (unit === "hour") {
-      var pids = both ? ["aidan", "wyel"] : [state.person];
-      var notes = [];
-      pids.forEach(function (pid) {
-        var u = untimedTodayMinutes(pid);
-        if (u) notes.push((both ? personName(pid) + " " : "") + fmtHM(u));
-      });
-      if (notes.length) rangeText += " · " + notes.join(", ") + " without a start time, not shown";
-    }
-    $("range-label").textContent = rangeText;
+function renderStatus() {
+var host = $("status");
+host.textContent = "";
+if (state.error) {
+var w = document.createElement("span");
+w.className = "warn";
+w.textContent = state.error;
+host.appendChild(w);
+return;
+}
+if (!state.loaded) { host.textContent = "Connecting…"; return; }
+if (!state.sb) {
+var e = document.createElement("span");
+e.className = "warn";
+e.textContent = "Supabase isn't configured — check supabaseAnonKey in config.js. Nothing you log will be saved.";
+host.appendChild(e);
+return;
+}
+host.textContent = state.sessions.length + " sessions saved · syncs across your devices";
+}
 
-    renderPeriods();
-    renderTabs();
-    if (aidan) {
-      renderChips(); renderTimer(); renderPickers(); renderToday();
-      var a = frame.startISO, b = frame.endISO;
-      var rows = subjectList().map(function (name) {
-        var range = 0, all = 0;
-        state.sessions.forEach(function (s) {
-          if (s.subject !== name) return;
-          all += s.minutes;
-          if (s.day >= a && s.day <= b) range += s.minutes;
-        });
-        return { name: name, color: subjectColor(name), range: range, all: all };
-      }).sort(function (x, y) { return y.range - x.range || y.all - x.all; });
-      fillTotals(rows, true);
-    } else if (both) {
-      renderCompare(frame);
-    } else {
-      renderWyelPanel();
-    }
-    renderChart(frame);
-    renderLegend();
-    renderStatStrip();
-    renderStats();
-    renderStatus();
-  }
+function renderAll() {
+var frame = buildBuckets();
+var both = state.person === "both", direct = isDirectPerson(state.person);
 
-  /* ---------- events ---------- */
-  $("startstop").addEventListener("click", function () {
-    if (state.running) {
-      var r = state.running, mins = Math.round((Date.now() - r.startedAt) / 60000);
-      state.running = null;
-      saveRunning(null);
-      if (mins >= 1) {
-        addSession(r.subject, mins, toISO(new Date(r.startedAt)), "", new Date(r.startedAt).toISOString());
-      } else renderAll();
-    } else if (state.selected) {
-      state.running = { subject: state.selected, startedAt: Date.now() };
-      saveRunning(state.running);
-      renderAll();
-    }
-  });
+$("layout").className = "grid" + (direct ? "" : " wide");
+$("col-left").hidden = !direct;
+$("compare-card").hidden = !both;
+$("wyel-note-card").hidden = state.person !== "wyel";
+$("totals-card").hidden = state.person === "wyel";
+var unit = resolvedUnit();
+$("chart-h").textContent = both
+? "Total per " + unit + ", compared"
+: direct
+? (unit === "hour" ? "Today, hour by hour" : "Time by subject")
+: "Wyel's time per " + unit;
+$("th-name").textContent = both ? "Person" : "Subject";
+var rangeText = frame.label;
+if (unit === "hour") {
+var pids = both ? PEOPLE.map(function (p) { return p.id; }) : [state.person];
+var notes = [];
+pids.forEach(function (pid) {
+var u = untimedTodayMinutes(pid);
+if (u) notes.push((both ? personName(pid) + " " : "") + fmtHM(u));
+});
+if (notes.length) rangeText += " · " + notes.join(", ") + " without a start time, not shown";
+}
+$("range-label").textContent = rangeText;
 
-  $("add-btn").addEventListener("click", function () {
-    var subject = $("add-subject").value;
-    var mins = parseInt($("add-minutes").value, 10);
-    var day = $("add-date").value || toISO(new Date());
-    var note = $("add-note").value.trim();
-    if (!subject || !mins || mins < 1) { $("add-minutes").focus(); return; }
-    addSession(subject, mins, day, note);
-    $("add-minutes").value = "";
-    $("add-note").value = "";
-  });
+renderPeriods();
+renderTabs();
+if (direct) {
+renderChips(); renderTimer(); renderPickers(); renderToday();
+var a = frame.startISO, b = frame.endISO;
+var rows = subjectList().map(function (name) {
+var range = 0, all = 0;
+state.sessions.forEach(function (s) {
+if (s.person !== state.person || s.subject !== name) return;
+all += s.minutes;
+if (s.day >= a && s.day <= b) range += s.minutes;
+});
+return { name: name, color: subjectColor(name), range: range, all: all };
+}).sort(function (x, y) { return y.range - x.range || y.all - x.all; });
+fillTotals(rows, true);
+} else if (both) {
+renderCompare(frame);
+} else {
+renderWyelPanel();
+}
+renderChart(frame);
+renderLegend();
+renderStatStrip();
+renderStats();
+renderStatus();
+}
 
-  $("new-subject-btn").addEventListener("click", function () {
-    var v = $("new-subject").value.trim();
-    if (!v) return;
-    state.adhocSubject = v;
-    state.selected = v;
-    $("new-subject").value = "";
-    renderAll();
-  });
-  $("new-subject").addEventListener("keydown", function (e) {
-    if (e.key === "Enter") { e.preventDefault(); $("new-subject-btn").click(); }
-  });
+/* ---------- events ---------- */
+$("startstop").addEventListener("click", function () {
+if (state.running) {
+var r = state.running, mins = Math.round((Date.now() - r.startedAt) / 60000);
+state.running = null;
+saveRunning(null);
+if (mins >= 1) {
+addSession(r.subject, mins, toISO(new Date(r.startedAt)), "", new Date(r.startedAt).toISOString(), r.person);
+} else renderAll();
+} else if (state.selected) {
+state.running = { subject: state.selected, startedAt: Date.now(), person: state.person };
+saveRunning(state.running);
+renderAll();
+}
+});
 
-  var rt = null;
-  window.addEventListener("resize", function () {
-    clearTimeout(rt);
-    rt = setTimeout(function () { renderChart(buildBuckets()); }, 120);
-  });
-  setInterval(function () {
-    if (state.running) $("readout").textContent = fmtClock(Date.now() - state.running.startedAt);
-  }, 1000);
+$("add-btn").addEventListener("click", function () {
+var subject = $("add-subject").value;
+var mins = parseInt($("add-minutes").value, 10);
+var day = $("add-date").value || toISO(new Date());
+var note = $("add-note").value.trim();
+if (!subject || !mins || mins < 1) { $("add-minutes").focus(); return; }
+addSession(subject, mins, day, note);
+$("add-minutes").value = "";
+$("add-note").value = "";
+});
 
-  /* ---------- boot ---------- */
-  $("add-date").value = toISO(new Date());
-  state.person = loadPerson();
-  try {
-    var savedPeriod = localStorage.getItem("study-log:period");
-    if (savedPeriod && PERIODS.some(function (p) { return p.id === savedPeriod; })) state.period = savedPeriod;
-  } catch (e) {}
-  state.running = loadRunning();
-  if (state.running) state.selected = state.running.subject;
-  if (!state.selected && Array.isArray(CFG.subjects) && CFG.subjects.length) state.selected = CFG.subjects[0];
-  renderAll();
+$("new-subject-btn").addEventListener("click", function () {
+var v = $("new-subject").value.trim();
+if (!v) return;
+state.adhocSubject = v;
+state.selected = v;
+$("new-subject").value = "";
+renderAll();
+});
+$("new-subject").addEventListener("keydown", function (e) {
+if (e.key === "Enter") { e.preventDefault(); $("new-subject-btn").click(); }
+});
 
-  // Wyel: static JSON committed by the hourly GitHub Action
-  fetch("data/wyel.json", { cache: "no-store" })
-    .then(function (r) { return r.ok ? r.json() : null; })
-    .then(function (j) { state.wyel = j; renderAll(); })
-    .catch(function () {});
+var rt = null;
+window.addEventListener("resize", function () {
+clearTimeout(rt);
+rt = setTimeout(function () { renderChart(buildBuckets()); }, 120);
+});
+setInterval(function () {
+if (state.running) $("readout").textContent = fmtClock(Date.now() - state.running.startedAt);
+}, 1000);
 
-  // Aidan: Supabase
-  var ok = CFG.supabaseUrl && CFG.supabaseAnonKey &&
-           CFG.supabaseAnonKey.indexOf("PASTE_") === -1 &&
-           window.supabase && window.supabase.createClient;
+/* ---------- boot ---------- */
+$("add-date").value = toISO(new Date());
+state.person = loadPerson();
+try {
+var savedPeriod = localStorage.getItem("study-log:period");
+if (savedPeriod && PERIODS.some(function (p) { return p.id === savedPeriod; })) state.period = savedPeriod;
+} catch (e) {}
+state.running = loadRunning();
+if (state.running) {
+state.selected = state.running.subject;
+if (state.running.person && isDirectPerson(state.running.person)) state.person = state.running.person;
+}
+if (!state.selected && Array.isArray(CFG.subjects) && CFG.subjects.length) state.selected = CFG.subjects[0];
+renderAll();
 
-  if (!ok) {
-    state.loaded = true;
-    renderAll();
-  } else {
-    state.sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey);
-    state.sb.from("sessions").select("*").eq("person", "aidan").then(function (res) {
-      state.loaded = true;
-      if (res.error) state.error = "Couldn't load: " + res.error.message;
-      else state.sessions = res.data || [];
-      renderAll();
-    });
-    state.sb.channel("sessions-live")
-      .on("postgres_changes", { event: "*", schema: "public", table: "sessions" }, function () {
-        state.sb.from("sessions").select("*").eq("person", "aidan").then(function (res) {
-          if (!res.error) { state.sessions = res.data || []; renderAll(); }
-        });
-      })
-      .subscribe();
-  }
+// Wyel: static JSON committed by the hourly GitHub Action
+fetch("data/wyel.json", { cache: "no-store" })
+.then(function (r) { return r.ok ? r.json() : null; })
+.then(function (j) { state.wyel = j; renderAll(); })
+.catch(function () {});
+
+// Direct people (Aidan, and anyone else in config.js's `people` list): Supabase
+var ok = CFG.supabaseUrl && CFG.supabaseAnonKey &&
+CFG.supabaseAnonKey.indexOf("PASTE_") === -1 &&
+window.supabase && window.supabase.createClient;
+
+if (!ok) {
+state.loaded = true;
+renderAll();
+} else {
+state.sb = window.supabase.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey);
+state.sb.from("sessions").select("*").then(function (res) {
+state.loaded = true;
+if (res.error) state.error = "Couldn't load: " + res.error.message;
+else state.sessions = res.data || [];
+renderAll();
+});
+state.sb.channel("sessions-live")
+.on("postgres_changes", { event: "*", schema: "public", table: "sessions" }, function () {
+state.sb.from("sessions").select("*").then(function (res) {
+if (!res.error) { state.sessions = res.data || []; renderAll(); }
+});
+})
+.subscribe();
+}
 })();
 </script>
 </body>
