@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-09-21T18:32:56.990Z",
-  "rowsInSheet": 100,
+  "updatedAt": "2026-09-21T19:35:32.051Z",
+  "rowsInSheet": 101,
   "sessionsUsed": 100,
-  "rowsSkipped": 0,
+  "rowsSkipped": 1,
   "firstDay": "2026-06-02",
-  "lastDay": "2026-09-20",
-  "totalMinutes": 11921,
+  "lastDay": "2026-09-21",
+  "totalMinutes": 11934,
   "timedSessions": 69,
   "hourlyWindowDays": 60,
   "daily": {
@@ -80,7 +80,7 @@
     "2026-09-17": 150,
     "2026-09-18": 266,
     "2026-09-19": 140,
-    "2026-09-20": 47
+    "2026-09-21": 60
   },
   "topics": {
     "Introduction": 35,
@@ -1285,7 +1285,7 @@
       0,
       0
     ],
-    "2026-09-20": [
+    "2026-09-21": [
       0,
       0,
       0,
@@ -1297,7 +1297,7 @@
       0,
       0,
       37,
-      10,
+      23,
       0,
       0,
       0,
