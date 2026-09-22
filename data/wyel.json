@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-09-22T22:04:12.282Z",
+  "updatedAt": "2026-09-22T23:10:12.759Z",
   "rowsInSheet": 102,
   "sessionsUsed": 102,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-09-22",
-  "totalMinutes": 12234,
+  "totalMinutes": 12279,
   "timedSessions": 71,
   "hourlyWindowDays": 60,
   "daily": {
@@ -81,7 +81,7 @@
     "2026-09-18": 266,
     "2026-09-19": 140,
     "2026-09-21": 240,
-    "2026-09-22": 120
+    "2026-09-22": 165
   },
   "topics": {
     "Introduction": 35,
@@ -115,7 +115,8 @@
     "Chapter 10 Additonal Problems": 266,
     "Chapter 11 Additonal Problems": 140,
     "Chapter 11 Additonal Problems and Error Log Review": 60,
-    "Chapter 12 Ratios, Probabilty, and Proportions and Error Log Review": 180
+    "Chapter 12 Ratios, Probabilty, and Proportions and Error Log Review": 180,
+    "Chapter 12 Ratios, Probabilty, and Proportions": 165
   },
   "hourly": {
     "2026-07-28": [
@@ -1326,8 +1327,8 @@
       0,
       39,
       60,
-      21,
-      0,
+      60,
+      6,
       0,
       0,
       0,
