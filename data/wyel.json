@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-09-21T23:07:39.398Z",
+  "updatedAt": "2026-09-22T00:45:29.941Z",
   "rowsInSheet": 101,
   "sessionsUsed": 101,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-09-21",
-  "totalMinutes": 12054,
+  "totalMinutes": 12114,
   "timedSessions": 70,
   "hourlyWindowDays": 60,
   "daily": {
@@ -80,7 +80,7 @@
     "2026-09-17": 150,
     "2026-09-18": 266,
     "2026-09-19": 140,
-    "2026-09-21": 180
+    "2026-09-21": 240
   },
   "topics": {
     "Introduction": 35,
@@ -112,7 +112,9 @@
     "Error Log Review (Entries 46-54)": 114,
     "Chapter 10 The Graphs of Quadratic Equations and Polynomials": 591,
     "Chapter 10 Additonal Problems": 266,
-    "Chapter 11 Additonal Problems": 140
+    "Chapter 11 Additonal Problems": 140,
+    "Chapter 11 Additonal Problems and Error Log Review": 60,
+    "Chapter 12 Ratios, Probabilty, and Proportions and Error Log Review": 180
   },
   "hourly": {
     "2026-07-28": [
@@ -1300,8 +1302,8 @@
       23,
       53,
       60,
+      60,
       7,
-      0,
       0,
       0,
       0,
