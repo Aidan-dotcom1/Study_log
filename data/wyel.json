@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-09-27T00:17:05.317Z",
+  "updatedAt": "2026-09-28T00:30:02.722Z",
   "rowsInSheet": 106,
   "sessionsUsed": 106,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-09-25",
   "totalMinutes": 12710,
-  "timedSessions": 74,
+  "timedSessions": 72,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -123,32 +123,6 @@
     "Chapter 13 Percentages": 226
   },
   "hourly": {
-    "2026-07-29": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      45,
-      0,
-      0,
-      0,
-      0,
-      15,
-      60,
-      25,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-08-03": [
       0,
       0,
