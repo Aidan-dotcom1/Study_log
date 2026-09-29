@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-09-29T14:47:01.926Z",
-  "rowsInSheet": 106,
+  "updatedAt": "2026-09-29T15:04:13.012Z",
+  "rowsInSheet": 109,
   "sessionsUsed": 106,
-  "rowsSkipped": 0,
+  "rowsSkipped": 3,
   "firstDay": "2026-06-02",
   "lastDay": "2026-09-25",
   "totalMinutes": 12710,
@@ -120,7 +120,8 @@
     "Chapter 11 Additonal Problems and Error Log Review": 60,
     "Chapter 12 Ratios, Probabilty, and Proportions and Error Log Review": 180,
     "Chapter 12 Ratios, Probabilty, and Proportions": 250,
-    "Chapter 13 Percentages": 346
+    "Chapter 13 Percentages": 226,
+    "Chapter 13 Percentages and Chapter 13 Percentages Additional Problems": 120
   },
   "hourly": {
     "2026-08-03": [
