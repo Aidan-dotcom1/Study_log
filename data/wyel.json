@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-10-03T00:01:47.052Z",
+  "updatedAt": "2026-10-04T02:21:51.952Z",
   "rowsInSheet": 109,
   "sessionsUsed": 107,
   "rowsSkipped": 2,
   "firstDay": "2026-06-02",
   "lastDay": "2026-09-29",
   "totalMinutes": 12760,
-  "timedSessions": 72,
+  "timedSessions": 70,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -126,32 +126,6 @@
     "Chapter 13 Percentages Additional Problems": 50
   },
   "hourly": {
-    "2026-08-04": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      20,
-      60,
-      60,
-      60,
-      15,
-      0,
-      0,
-      0,
-      0,
-      20,
-      55,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-08-05": [
       0,
       0,
