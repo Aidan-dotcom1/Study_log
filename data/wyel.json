@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-10-05T00:06:56.317Z",
+  "updatedAt": "2026-10-05T23:00:20.453Z",
   "rowsInSheet": 109,
-  "sessionsUsed": 107,
-  "rowsSkipped": 2,
+  "sessionsUsed": 108,
+  "rowsSkipped": 1,
   "firstDay": "2026-06-02",
-  "lastDay": "2026-09-29",
-  "totalMinutes": 12760,
-  "timedSessions": 69,
+  "lastDay": "2026-10-05",
+  "totalMinutes": 12850,
+  "timedSessions": 70,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -85,7 +85,8 @@
     "2026-09-23": 80,
     "2026-09-24": 180,
     "2026-09-25": 166,
-    "2026-09-29": 50
+    "2026-09-29": 50,
+    "2026-10-05": 90
   },
   "topics": {
     "Introduction": 35,
@@ -123,7 +124,7 @@
     "Chapter 12 Ratios, Probabilty, and Proportions": 250,
     "Chapter 13 Percentages": 226,
     "Chapter 13 Percentages and Chapter 13 Percentages Additional Problems": 120,
-    "Chapter 13 Percentages Additional Problems": 50
+    "Chapter 13 Percentages Additional Problems": 140
   },
   "hourly": {
     "2026-08-06": [
@@ -1315,6 +1316,32 @@
       0,
       0,
       0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2026-10-05": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      45,
+      45,
       0,
       0,
       0,
