@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-08T18:55:40.755Z",
-  "rowsInSheet": 115,
+  "updatedAt": "2026-10-08T19:40:57.118Z",
+  "rowsInSheet": 116,
   "sessionsUsed": 111,
-  "rowsSkipped": 4,
+  "rowsSkipped": 5,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-08",
-  "totalMinutes": 13242,
+  "totalMinutes": 13287,
   "timedSessions": 66,
   "hourlyWindowDays": 60,
   "daily": {
@@ -89,7 +89,7 @@
     "2026-10-05": 90,
     "2026-10-06": 150,
     "2026-10-07": 180,
-    "2026-10-08": 62
+    "2026-10-08": 107
   },
   "topics": {
     "Introduction": 35,
@@ -128,7 +128,7 @@
     "Chapter 13 Percentages": 226,
     "Chapter 13 Percentages and Chapter 13 Percentages Additional Problems": 120,
     "Chapter 13 Percentages Additional Problems": 290,
-    "Chapter 14 Exponential Relationships": 242
+    "Chapter 14 Exponential Relationships": 287
   },
   "hourly": {
     "2026-08-09": [
@@ -1341,8 +1341,8 @@
       0,
       0,
       5,
-      57,
-      0,
+      60,
+      42,
       0,
       0,
       0,
