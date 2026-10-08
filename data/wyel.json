@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-10-08T15:26:22.476Z",
-  "rowsInSheet": 112,
+  "updatedAt": "2026-10-08T17:01:13.342Z",
+  "rowsInSheet": 113,
   "sessionsUsed": 110,
-  "rowsSkipped": 2,
+  "rowsSkipped": 3,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-07",
   "totalMinutes": 13180,
@@ -126,7 +126,8 @@
     "Chapter 12 Ratios, Probabilty, and Proportions": 250,
     "Chapter 13 Percentages": 226,
     "Chapter 13 Percentages and Chapter 13 Percentages Additional Problems": 120,
-    "Chapter 13 Percentages Additional Problems": 290
+    "Chapter 13 Percentages Additional Problems": 290,
+    "Chapter 14 Exponential Relationships": 180
   },
   "hourly": {
     "2026-08-09": [
