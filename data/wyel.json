@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-10-09T00:32:48.109Z",
+  "updatedAt": "2026-10-10T00:31:31.716Z",
   "rowsInSheet": 116,
   "sessionsUsed": 111,
   "rowsSkipped": 5,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-08",
   "totalMinutes": 13411,
-  "timedSessions": 65,
+  "timedSessions": 62,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -131,32 +131,6 @@
     "Chapter 14 Exponential Relationships": 411
   },
   "hourly": {
-    "2026-08-10": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      30,
-      60,
-      60,
-      0,
-      0,
-      0,
-      20,
-      21,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-08-11": [
       0,
       0,
