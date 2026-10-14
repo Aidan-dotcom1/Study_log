@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-14T20:03:51.019Z",
+  "updatedAt": "2026-10-14T22:12:55.668Z",
   "rowsInSheet": 115,
   "sessionsUsed": 114,
   "rowsSkipped": 1,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-14",
-  "totalMinutes": 13858,
+  "totalMinutes": 13920,
   "timedSessions": 52,
   "hourlyWindowDays": 60,
   "daily": {
@@ -92,7 +92,7 @@
     "2026-10-08": 240,
     "2026-10-12": 180,
     "2026-10-13": 168,
-    "2026-10-14": 90
+    "2026-10-14": 152
   },
   "topics": {
     "Introduction": 35,
@@ -110,7 +110,7 @@
     "Error Log Review (Entries 2-22)": 361,
     "Error Log Review (Entry 21)": 156,
     "Chapter 5 - Linear Equalities & Absolute Value": 618,
-    "Error Log Review": 542,
+    "Error Log Review": 604,
     "01 - Introduction to Desmos": 100,
     "Chapter 5 - Additional Problems": 542,
     "Chapter 6 - Exponents & Radicals / Roots": 405,
@@ -1267,8 +1267,8 @@
       0,
       15,
       60,
-      15,
-      0,
+      60,
+      17,
       0,
       0,
       0,
