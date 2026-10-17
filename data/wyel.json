@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-17T00:01:53.412Z",
+  "updatedAt": "2026-10-17T06:53:07.438Z",
   "rowsInSheet": 116,
   "sessionsUsed": 116,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-16",
-  "totalMinutes": 14414,
+  "totalMinutes": 14518,
   "timedSessions": 52,
   "hourlyWindowDays": 60,
   "daily": {
@@ -94,7 +94,7 @@
     "2026-10-13": 168,
     "2026-10-14": 240,
     "2026-10-15": 240,
-    "2026-10-16": 166
+    "2026-10-16": 270
   },
   "topics": {
     "Introduction": 35,
@@ -137,7 +137,7 @@
     "Chapter 14 Additonal Problems": 180,
     "Chapter 14 Additonal Problems And Error Log Review": 168,
     "Error Log Review + Chapter 15 Scaterplots And Line Graphs": 240,
-    "Chapter 15 Scaterplots And Line Graphs": 166
+    "Chapter 15 Scaterplots And Line Graphs": 270
   },
   "hourly": {
     "2026-08-18": [
@@ -1271,9 +1271,9 @@
       2,
       60,
       60,
-      44,
-      0,
-      0,
+      60,
+      60,
+      28,
       0,
       0,
       0,
