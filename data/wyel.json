@@ -1,8 +1,8 @@
 {
-  "updatedAt": "2026-10-19T00:40:50.023Z",
-  "rowsInSheet": 116,
+  "updatedAt": "2026-10-19T18:02:08.715Z",
+  "rowsInSheet": 117,
   "sessionsUsed": 116,
-  "rowsSkipped": 0,
+  "rowsSkipped": 1,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-16",
   "totalMinutes": 14518,
@@ -137,7 +137,7 @@
     "Chapter 14 Additonal Problems": 180,
     "Chapter 14 Additonal Problems And Error Log Review": 168,
     "Error Log Review + Chapter 15 Scaterplots And Line Graphs": 240,
-    "Chapter 15 Scaterplots And Line Graphs": 270
+    "Chapter 15 Scaterplots And Line Graphs And Chapter 16 Functions": 270
   },
   "hourly": {
     "2026-08-20": [
