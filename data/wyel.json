@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-10-18T00:13:59.917Z",
+  "updatedAt": "2026-10-19T00:40:50.023Z",
   "rowsInSheet": 116,
   "sessionsUsed": 116,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-16",
   "totalMinutes": 14518,
-  "timedSessions": 51,
+  "timedSessions": 50,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -140,32 +140,6 @@
     "Chapter 15 Scaterplots And Line Graphs": 270
   },
   "hourly": {
-    "2026-08-19": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      60,
-      60,
-      60,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-08-20": [
       0,
       0,
