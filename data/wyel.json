@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-19T19:59:47.012Z",
+  "updatedAt": "2026-10-19T22:13:24.117Z",
   "rowsInSheet": 117,
   "sessionsUsed": 117,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-19",
-  "totalMinutes": 14593,
+  "totalMinutes": 14636,
   "timedSessions": 51,
   "hourlyWindowDays": 60,
   "daily": {
@@ -95,7 +95,7 @@
     "2026-10-14": 240,
     "2026-10-15": 240,
     "2026-10-16": 270,
-    "2026-10-19": 75
+    "2026-10-19": 118
   },
   "topics": {
     "Introduction": 35,
@@ -1246,8 +1246,8 @@
       0,
       0,
       55,
-      20,
-      0,
+      60,
+      3,
       0,
       0,
       0,
