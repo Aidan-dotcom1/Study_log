@@ -1,11 +1,11 @@
 {
-  "updatedAt": "2026-10-22T20:04:40.370Z",
+  "updatedAt": "2026-10-22T23:20:31.921Z",
   "rowsInSheet": 120,
   "sessionsUsed": 120,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-22",
-  "totalMinutes": 15027,
+  "totalMinutes": 15134,
   "timedSessions": 51,
   "hourlyWindowDays": 60,
   "daily": {
@@ -98,7 +98,7 @@
     "2026-10-19": 118,
     "2026-10-20": 40,
     "2026-10-21": 231,
-    "2026-10-22": 120
+    "2026-10-22": 227
   },
   "topics": {
     "Introduction": 35,
@@ -144,7 +144,7 @@
     "Chapter 15 Scaterplots And Line Graphs And Chapter 16 Functions": 270,
     "Chapter 16 Functions": 118,
     "Chapter 16 Additonal Problems": 271,
-    "Error Log Review And Chapter 12 Ratios, Probabilty, and Proportions": 120
+    "Error Log Review And Chapter 12 Ratios, Probabilty, and Proportions": 227
   },
   "hourly": {
     "2026-08-24": [
@@ -1250,9 +1250,9 @@
       0,
       33,
       60,
-      27,
-      0,
-      0,
+      60,
+      60,
+      14,
       0,
       0,
       0,
