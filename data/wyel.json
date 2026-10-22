@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-10-22T16:04:32.322Z",
+  "updatedAt": "2026-10-22T20:04:40.370Z",
   "rowsInSheet": 120,
-  "sessionsUsed": 119,
-  "rowsSkipped": 1,
+  "sessionsUsed": 120,
+  "rowsSkipped": 0,
   "firstDay": "2026-06-02",
-  "lastDay": "2026-10-21",
-  "totalMinutes": 14907,
-  "timedSessions": 50,
+  "lastDay": "2026-10-22",
+  "totalMinutes": 15027,
+  "timedSessions": 51,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -97,7 +97,8 @@
     "2026-10-16": 270,
     "2026-10-19": 118,
     "2026-10-20": 40,
-    "2026-10-21": 231
+    "2026-10-21": 231,
+    "2026-10-22": 120
   },
   "topics": {
     "Introduction": 35,
@@ -142,7 +143,8 @@
     "Error Log Review + Chapter 15 Scaterplots And Line Graphs": 240,
     "Chapter 15 Scaterplots And Line Graphs And Chapter 16 Functions": 270,
     "Chapter 16 Functions": 118,
-    "Chapter 16 Additonal Problems": 271
+    "Chapter 16 Additonal Problems": 271,
+    "Error Log Review And Chapter 12 Ratios, Probabilty, and Proportions": 120
   },
   "hourly": {
     "2026-08-24": [
@@ -1227,6 +1229,32 @@
       60,
       60,
       51,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2026-10-22": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      33,
+      60,
+      27,
+      0,
+      0,
+      0,
+      0,
       0,
       0,
       0,
