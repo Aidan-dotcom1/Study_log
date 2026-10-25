@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-10-24T01:53:28.934Z",
+  "updatedAt": "2026-10-25T01:19:40.209Z",
   "rowsInSheet": 121,
   "sessionsUsed": 121,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-23",
   "totalMinutes": 15344,
-  "timedSessions": 51,
+  "timedSessions": 49,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -148,32 +148,6 @@
     "Error Log Review And Chapter 12 Ratios, Probabilty, and Proportions": 227
   },
   "hourly": {
-    "2026-08-25": [
-      0,
-      0,
-      5,
-      60,
-      0,
-      0,
-      0,
-      0,
-      0,
-      25,
-      60,
-      60,
-      36,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-08-26": [
       0,
       0,
