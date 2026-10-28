@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-10-27T23:15:12.047Z",
+  "updatedAt": "2026-10-28T02:24:47.169Z",
   "rowsInSheet": 124,
   "sessionsUsed": 124,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-27",
   "totalMinutes": 15758,
-  "timedSessions": 50,
+  "timedSessions": 48,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -152,32 +152,6 @@
     "Chapter 17 Statistics": 257
   },
   "hourly": {
-    "2026-08-28": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      30,
-      60,
-      15,
-      0,
-      0,
-      0,
-      37,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-08-29": [
       0,
       0,
