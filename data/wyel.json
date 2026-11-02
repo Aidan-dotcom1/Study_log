@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-01T02:24:03.634Z",
+  "updatedAt": "2026-11-02T05:47:17.932Z",
   "rowsInSheet": 127,
   "sessionsUsed": 127,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-10-30",
   "totalMinutes": 16468,
-  "timedSessions": 48,
+  "timedSessions": 47,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -157,32 +157,6 @@
     "Chapter 17 Additional Problems": 252
   },
   "hourly": {
-    "2026-09-02": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      4,
-      60,
-      56,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-09-03": [
       0,
       0,
