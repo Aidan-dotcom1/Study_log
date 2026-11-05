@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-05T06:29:44.108Z",
-  "rowsInSheet": 130,
-  "sessionsUsed": 130,
+  "updatedAt": "2026-11-05T14:55:35.719Z",
+  "rowsInSheet": 131,
+  "sessionsUsed": 131,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
-  "lastDay": "2026-11-04",
-  "totalMinutes": 17300,
-  "timedSessions": 47,
+  "lastDay": "2026-11-05",
+  "totalMinutes": 17309,
+  "timedSessions": 48,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -107,7 +107,8 @@
     "2026-10-30": 252,
     "2026-11-02": 210,
     "2026-11-03": 262,
-    "2026-11-04": 360
+    "2026-11-04": 360,
+    "2026-11-05": 9
   },
   "topics": {
     "Introduction": 35,
@@ -159,7 +160,9 @@
     "Chapter 17 Statistics And Chapter 17 Additional Problems": 241,
     "Chapter 17 Additional Problems": 252,
     "Chapter 17 Additional Problems And Chapter 18 Unit Conversions": 210,
-    "Chapter 18 Unit Conversions": 622
+    "Chapter 18 Unit Conversions": 262,
+    "Chapter 18 Unit Conversions And Chapter 19": 360,
+    "Chapter 19 Angles Triangles And Trigonometry": 9
   },
   "hourly": {
     "2026-09-06": [
@@ -1217,6 +1220,32 @@
       60,
       60,
       45,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "2026-11-05": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      9,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
       0,
       0,
       0,
