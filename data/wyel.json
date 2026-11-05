@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-04T23:58:04.631Z",
+  "updatedAt": "2026-11-05T06:29:44.108Z",
   "rowsInSheet": 130,
   "sessionsUsed": 130,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-11-04",
-  "totalMinutes": 17260,
-  "timedSessions": 48,
+  "totalMinutes": 17300,
+  "timedSessions": 47,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -107,7 +107,7 @@
     "2026-10-30": 252,
     "2026-11-02": 210,
     "2026-11-03": 262,
-    "2026-11-04": 320
+    "2026-11-04": 360
   },
   "topics": {
     "Introduction": 35,
@@ -159,35 +159,9 @@
     "Chapter 17 Statistics And Chapter 17 Additional Problems": 241,
     "Chapter 17 Additional Problems": 252,
     "Chapter 17 Additional Problems And Chapter 18 Unit Conversions": 210,
-    "Chapter 18 Unit Conversions": 582
+    "Chapter 18 Unit Conversions": 622
   },
   "hourly": {
-    "2026-09-05": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      30,
-      55,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-09-06": [
       0,
       0,
@@ -1242,7 +1216,7 @@
       60,
       60,
       60,
-      5,
+      45,
       0,
       0,
       0,
