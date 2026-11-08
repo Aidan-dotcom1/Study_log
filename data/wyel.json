@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-07T01:16:46.287Z",
+  "updatedAt": "2026-11-08T01:46:55.470Z",
   "rowsInSheet": 132,
   "sessionsUsed": 132,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-11-06",
   "totalMinutes": 17415,
-  "timedSessions": 46,
+  "timedSessions": 45,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -166,32 +166,6 @@
     "Chapter 19 Angles Triangles And Trigonometry": 115
   },
   "hourly": {
-    "2026-09-08": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      10,
-      60,
-      60,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-09-09": [
       0,
       0,
