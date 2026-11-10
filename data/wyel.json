@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-09T20:59:55.145Z",
+  "updatedAt": "2026-11-10T03:27:41.113Z",
   "rowsInSheet": 133,
   "sessionsUsed": 133,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-11-09",
-  "totalMinutes": 17609,
-  "timedSessions": 45,
+  "totalMinutes": 17670,
+  "timedSessions": 44,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -110,7 +110,7 @@
     "2026-11-04": 360,
     "2026-11-05": 21,
     "2026-11-06": 94,
-    "2026-11-09": 194
+    "2026-11-09": 255
   },
   "topics": {
     "Introduction": 35,
@@ -164,35 +164,9 @@
     "Chapter 17 Additional Problems And Chapter 18 Unit Conversions": 210,
     "Chapter 18 Unit Conversions": 262,
     "Chapter 18 Unit Conversions And Chapter 19": 360,
-    "Chapter 19 Angles Triangles And Trigonometry": 115
+    "Chapter 19 Angles Triangles And Trigonometry": 370
   },
   "hourly": {
-    "2026-09-10": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      15,
-      35,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-09-11": [
       0,
       0,
@@ -1193,8 +1167,8 @@
       50,
       60,
       60,
-      24,
-      0,
+      60,
+      25,
       0,
       0,
       0,
