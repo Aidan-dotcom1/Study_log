@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-17T19:23:13.220Z",
+  "updatedAt": "2026-11-18T01:47:14.800Z",
   "rowsInSheet": 138,
   "sessionsUsed": 138,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-11-17",
-  "totalMinutes": 18574,
-  "timedSessions": 42,
+  "totalMinutes": 18702,
+  "timedSessions": 40,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -115,7 +115,7 @@
     "2026-11-12": 240,
     "2026-11-13": 165,
     "2026-11-16": 282,
-    "2026-11-17": 102
+    "2026-11-17": 230
   },
   "topics": {
     "Introduction": 35,
@@ -170,35 +170,9 @@
     "Chapter 18 Unit Conversions": 262,
     "Chapter 18 Unit Conversions And Chapter 19": 360,
     "Chapter 19 Angles Triangles And Trigonometry": 890,
-    "Chapter 20 Circles And Volume And Error Log Review": 384
+    "Chapter 20 Circles And Volume And Error Log Review": 512
   },
   "hourly": {
-    "2026-09-18": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      55,
-      60,
-      55,
-      0,
-      0,
-      35,
-      60,
-      1,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-09-19": [
       0,
       0,
@@ -1146,9 +1120,9 @@
       0,
       19,
       60,
-      23,
-      0,
-      0,
+      60,
+      60,
+      31,
       0,
       0,
       0,
