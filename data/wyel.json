@@ -1,12 +1,12 @@
 {
-  "updatedAt": "2026-11-23T03:58:39.511Z",
+  "updatedAt": "2026-11-24T01:51:01.374Z",
   "rowsInSheet": 141,
   "sessionsUsed": 141,
   "rowsSkipped": 0,
   "firstDay": "2026-06-02",
   "lastDay": "2026-11-20",
   "totalMinutes": 19370,
-  "timedSessions": 38,
+  "timedSessions": 37,
   "hourlyWindowDays": 60,
   "daily": {
     "2026-06-02": 121,
@@ -177,32 +177,6 @@
     "Chapter 20 Circles And Volume": 668
   },
   "hourly": {
-    "2026-09-24": [
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      6,
-      60,
-      60,
-      54,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0,
-      0
-    ],
     "2026-09-25": [
       0,
       0,
